@@ -49,6 +49,9 @@ import {
   Building2,
   Rocket,
   Compass,
+  Zap,
+  TrendingUp,
+  Hammer,
 } from "lucide-react";
 
 interface SubMenuItem {
@@ -1357,6 +1360,24 @@ export function EnhancedStarTrekNav({
       label: "Exploration & Discovery",
       icon: <Compass className="w-5 h-5" />,
       category: "exploration",
+    },
+    {
+      id: "random_events",
+      label: "Random Events",
+      icon: <Zap className="w-5 h-5" />,
+      category: "tactical",
+    },
+    {
+      id: "achievement_progression",
+      label: "Achievements",
+      icon: <TrendingUp className="w-5 h-5" />,
+      category: "science",
+    },
+    {
+      id: "resource_mining",
+      label: "Mining Operations",
+      icon: <Hammer className="w-5 h-5" />,
+      category: "operations",
     },
   ];
 
