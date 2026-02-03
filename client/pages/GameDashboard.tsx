@@ -74,7 +74,7 @@ export default function GameDashboard() {
     );
   }
 
-  const fleetPower = gameState.fleet.ships.reduce((sum, ship) => 
+  const fleetPower = gameState.ships.reduce((sum, ship) => 
     sum + ship.stats.attack + ship.stats.defense, 0
   );
 
@@ -164,7 +164,7 @@ export default function GameDashboard() {
                 <CardHeader>
                   <CardTitle className="text-white">Fleet Status</CardTitle>
                   <CardDescription>
-                    Current formation: {gameState.fleet.formation || 'None'}
+                    Current formation: {gameState.fleet.formation?.name || 'None'}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -173,11 +173,11 @@ export default function GameDashboard() {
                       <div className="flex justify-between mb-2">
                         <span className="text-sm text-gray-300">Ships</span>
                         <span className="text-sm text-white">
-                          {gameState.fleet.ships.length} / {gameState.fleet.capacity}
+                          {gameState.ships.length} / {gameState.fleet.capacity}
                         </span>
                       </div>
                       <Progress 
-                        value={(gameState.fleet.ships.length / gameState.fleet.capacity) * 100} 
+                        value={(gameState.ships.length / gameState.fleet.capacity) * 100}
                         className="h-2"
                       />
                     </div>
@@ -245,10 +245,10 @@ export default function GameDashboard() {
                         <span className="text-sm text-gray-300 capitalize">{resource}</span>
                         <div className="flex items-center gap-2">
                           <span className="text-sm text-white">
-                            {gameState.economy.resources.get(resource)?.toLocaleString()}
+                            {gameState.economy.resources.get(resource as any)?.toLocaleString()}
                           </span>
                           <Badge variant="secondary" className="text-xs">
-                            +{generator.generationRate}/min
+                            +{(generator.baseGeneration * generator.efficiency).toFixed(1)}/min
                           </Badge>
                         </div>
                       </div>

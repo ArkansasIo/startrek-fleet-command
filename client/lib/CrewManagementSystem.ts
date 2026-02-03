@@ -1861,7 +1861,7 @@ export const ALL_CREW_BY_TIER = {
   tier5: [
     CREW_JAMES_KIRK, CREW_SPOCK, CREW_JEAN_LUC_PICARD, CREW_KATHRYN_JANEWAY,
     CREW_BENJAMIN_SISKO, CREW_KHAN_NOONIEN_SINGH, CREW_DOMINION_FOUNDER,
-    CREW_JAMES_T_KIRK_ALTERNATE, CREW_GUINEA_SUPREME: CREW_GUINAN_SUPREME,
+    CREW_JAMES_T_KIRK_ALTERNATE, CREW_GUINAN_SUPREME,
     CREW_TIMEKEEPER, CREW_Q, CREW_BORG_QUEEN
   ]
 };
@@ -2020,7 +2020,7 @@ export function calculateCrewBonus(crew: CrewMember): Partial<CrewStats> {
   let totalBonus = 0;
 
   for (const skill of crew.skills) {
-    if (skill.type === 'flat') {
+    if (skill.bonus.type === 'flat') {
       bonus[skill.bonus.stat] = (bonus[skill.bonus.stat] || 0) + skill.bonus.value;
     } else {
       bonus[skill.bonus.stat] = (bonus[skill.bonus.stat] || 0) + (crew.stats[skill.bonus.stat] * skill.bonus.value / 100);

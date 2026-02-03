@@ -26,19 +26,20 @@ import {
   Fleet,
   createFleet,
   addShipToFleet,
-  setFormation,
+  setFleetFormation as setFormation,
   calculateFleetStats,
 } from './FleetManagementSystem';
 
 import {
   Resource,
+  ResourceType,
   PlayerEconomy,
   createEconomy,
   addResource,
   removeResource,
   buyResource,
   sellResource,
-  upgradeGenerator,
+  upgadeGenerator as upgradeGenerator,
 } from './ResourceEconomySystem';
 
 import {
@@ -52,7 +53,7 @@ import {
 
 import {
   Technology,
-  getTechnologyById,
+  getTechById,
   ALL_TECHNOLOGIES,
 } from './TechnologyResearchSystem';
 
@@ -75,6 +76,22 @@ import {
 } from './AllianceFactionSystemEnhanced';
 
 // ============================================================================
+// ENRICHED EXPORTS - Add missing properties for UI compatibility
+// ============================================================================
+
+// Enrich ship classes with display properties
+const enrichedShipClasses = ALL_SHIP_CLASSES.map(ship => ({
+  ...ship,
+  name: ship.className,
+  faction: ship.federation ? 'Federation' : (ship.classId.includes('klingon') ? 'Klingon' : (ship.classId.includes('romulan') ? 'Romulan' : (ship.classId.includes('dominion') ? 'Dominion' : 'Other'))),
+  type: ship.shipType,
+}));
+
+// Re-export with enrichments
+export { enrichedShipClasses as ALL_SHIP_CLASSES };
+export { ALL_CREW, ALL_ACHIEVEMENTS, ALL_TECHNOLOGIES, ALL_MISSIONS, ALL_FACTIONS };
+
+// ============================================================================
 // GAME STATE STRUCTURE
 // ============================================================================
 
@@ -86,7 +103,8 @@ export interface GameState {
   experienceToNextLevel: number;
   
   // Core Systems
-  fleet: Fleet;
+  fleet: Fleet & { capacity: number };
+  ships: Ship[]; // All player ships
   crew: CrewMember[];
   economy: PlayerEconomy;
   
@@ -135,7 +153,8 @@ export function initializeGame(playerId: string, playerName?: string): GameState
     experience: 0,
     experienceToNextLevel: 1000,
     
-    fleet: createFleet(`fleet_${playerId}`, playerId, 5),
+    fleet: { ...createFleet(playerId, `Fleet ${playerId.substring(0, 8)}`, ''), capacity: 20 },
+    ships: [],
     crew: [],
     economy: createEconomy(playerId),
     
@@ -155,7 +174,7 @@ export function initializeGame(playerId: string, playerName?: string): GameState
 
   // Initialize starter technologies
   gameState.technologies = ALL_TECHNOLOGIES.slice(0, 5).map(tech => ({
-    technologyId: tech.technologyId,
+    technologyId: tech.id,
     unlocked: true,
     researchStartTime: null,
     researchEndTime: null,
@@ -191,12 +210,12 @@ export function updateGameState(context: GameContext): void {
 function updateEconomy(gameState: GameState, deltaSeconds: number): void {
   // Process passive income
   for (const [resourceName, generator] of gameState.economy.generators) {
-    const generationPerSecond = generator.generationRate / 60;
+    const generationPerSecond = generator.baseGeneration * generator.efficiency / 60;
     const generated = generationPerSecond * deltaSeconds;
 
-    const current = gameState.economy.resources.get(resourceName) || 0;
-    const max = generator.storageCapacity;
-    gameState.economy.resources.set(resourceName, Math.min(current + generated, max));
+    const current = gameState.economy.resources.get(resourceName as ResourceType) || 0;
+    const max = gameState.economy.maxStorage.get(resourceName as ResourceType) || 10000;
+    gameState.economy.resources.set(resourceName as ResourceType, Math.min(current + generated, max));
   }
 }
 
@@ -264,7 +283,7 @@ export function buildShipForPlayer(
   for (const reqTechId of shipClass.techRequirements) {
     const tech = gameState.technologies.find(t => t.technologyId === reqTechId);
     if (!tech || !tech.unlocked) {
-      const techData = getTechnologyById(reqTechId);
+      const techData = getTechById(reqTechId);
       return { 
         success: false, 
         message: `Missing required technology: ${techData?.name || reqTechId}` 
@@ -293,13 +312,14 @@ export function buildShipForPlayer(
   removeResource(gameState.economy, 'credits', shipClass.buildCost);
 
   // Create ship
-  const ship = createShip(shipClassId);
-  if (shipName) {
-    ship.name = shipName;
+  const ship = createShip(gameState.playerId, shipClassId, shipName || shipClass.className);
+  if (!ship) {
+    return { success: false, message: 'Failed to create ship' };
   }
 
-  // Add to fleet
-  addShipToFleet(gameState.fleet, ship);
+  // Add to fleet and ships array
+  addShipToFleet(gameState.fleet, ship.shipId);
+  gameState.ships.push(ship);
 
   // Award achievement
   updateAchievementProgress(gameState.achievements, 'ach_first_ship', 1);
@@ -307,7 +327,7 @@ export function buildShipForPlayer(
 
   return { 
     success: true, 
-    message: `Successfully built ${shipClass.name}!`,
+    message: `Successfully built ${shipClass.className}!`,
     ship 
   };
 }
@@ -407,7 +427,7 @@ export function startMissionForPlayer(
   }
 
   // Start mission
-  const activeMission = startMission(mission);
+  const activeMission = { ...mission, status: 'active' as const };
   gameState.activeMissions.push(activeMission);
 
   return { 
@@ -444,7 +464,7 @@ export function completeMissionForPlayer(
   
   // Resources
   for (const [resourceName, amount] of rewards.resources) {
-    addResource(gameState.economy, resourceName, amount);
+    addResource(gameState.economy, resourceName as ResourceType, amount);
   }
   
   // Technology unlocks
@@ -477,7 +497,7 @@ export function startResearch(
   gameState: GameState,
   technologyId: string
 ): { success: boolean; message: string } {
-  const tech = getTechnologyById(technologyId);
+  const tech = getTechById(technologyId);
   if (!tech) {
     return { success: false, message: 'Technology not found' };
   }
@@ -489,7 +509,8 @@ export function startResearch(
   }
 
   // Check prerequisites
-  for (const prereqId of tech.prerequisites) {
+  const prereqs = tech.requirements.previousTech || [];
+  for (const prereqId of prereqs) {
     const prereq = gameState.technologies.find(t => t.technologyId === prereqId);
     if (!prereq || !prereq.unlocked) {
       return { success: false, message: 'Missing prerequisite technologies' };
@@ -497,8 +518,8 @@ export function startResearch(
   }
 
   // Check resources
-  for (const [resourceName, cost] of tech.resourceCost) {
-    const available = gameState.economy.resources.get(resourceName) || 0;
+  for (const [resourceName, cost] of Object.entries(tech.baseCost)) {
+    const available = gameState.economy.resources.get(resourceName as ResourceType) || 0;
     if (available < cost) {
       return { 
         success: false, 
@@ -508,21 +529,21 @@ export function startResearch(
   }
 
   // Deduct resources
-  for (const [resourceName, cost] of tech.resourceCost) {
-    removeResource(gameState.economy, resourceName, cost);
+  for (const [resourceName, cost] of Object.entries(tech.baseCost)) {
+    removeResource(gameState.economy, resourceName as ResourceType, cost);
   }
 
   // Start research
   const now = Date.now();
   if (existing) {
     existing.researchStartTime = now;
-    existing.researchEndTime = now + (tech.researchTime * 1000);
+    existing.researchEndTime = now + (tech.baseResearchTime * 1000);
   } else {
     gameState.technologies.push({
       technologyId,
       unlocked: false,
       researchStartTime: now,
-      researchEndTime: now + (tech.researchTime * 1000),
+      researchEndTime: now + (tech.baseResearchTime * 1000),
       level: 1,
     });
   }
@@ -581,10 +602,15 @@ export function joinFactionForPlayer(
 // ============================================================================
 
 export function getGameStatistics(gameState: GameState) {
+  // Calculate fleet power from ships
+  const fleetPower = gameState.ships.reduce((sum, ship) => 
+    sum + ship.stats.attack + ship.stats.defense, 0
+  );
+  
   return {
     level: gameState.level,
     experience: gameState.experience,
-    fleetPower: calculateFleetPower(gameState.fleet),
+    fleetPower,
     crewCount: gameState.crew.length,
     wealth: gameState.economy.resources.get('credits') || 0,
     achievementsUnlocked: gameState.achievements.totalUnlocked,
@@ -611,11 +637,4 @@ export function loadGameState(playerId: string): GameState | null {
 }
 
 // Export all for use in components
-export {
-  ALL_CREW,
-  ALL_SHIP_CLASSES,
-  ALL_MISSIONS,
-  ALL_TECHNOLOGIES,
-  ALL_ACHIEVEMENTS,
-  ALL_FACTIONS,
-};
+// (Functions are already exported with 'export function' declarations)

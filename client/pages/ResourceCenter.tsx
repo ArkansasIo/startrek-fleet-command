@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Zap, TrendingUp, TrendingDown, ArrowUpDown } from 'lucide-react';
 import { GameState, ALL_FACTIONS } from '@/lib/ModernGameIntegration';
-import { upgradeGenerator, buyResource, sellResource } from '@/lib/ResourceEconomySystem';
+import { upgadeGenerator as upgradeGenerator, buyResource, sellResource } from '@/lib/ResourceEconomySystem';
 
 interface ResourceCenterPageProps {
   gameState: GameState;
@@ -24,16 +24,18 @@ export default function ResourceCenterPage({ gameState, onUpdate }: ResourceCent
     const credits = gameState.economy.resources.get('credits') || 0;
 
     if (credits >= cost) {
-      upgradeGenerator(gameState.economy, resourceName, generator.level + 1);
+      const newGenerator = { ...generator, level: generator.level + 1 };
+      gameState.economy.generators.set(resourceName, newGenerator);
+      gameState.economy.resources.set('credits', credits - cost);
       onUpdate({ ...gameState });
-      alert(`Upgraded ${resourceName} generator to level ${generator.level + 1}`);
+      alert(`Upgraded ${resourceName} generator to level ${newGenerator.level}`);
     } else {
       alert(`Insufficient credits. Need ${cost.toLocaleString()}, have ${credits.toLocaleString()}`);
     }
   };
 
   const handleBuy = (resourceName: string) => {
-    const result = buyResource(gameState.economy, resourceName, tradeAmount);
+    const result = buyResource(gameState.economy, resourceName as any, tradeAmount);
     if (result) {
       onUpdate({ ...gameState });
       alert(`Purchased ${tradeAmount} ${resourceName}`);
@@ -43,7 +45,7 @@ export default function ResourceCenterPage({ gameState, onUpdate }: ResourceCent
   };
 
   const handleSell = (resourceName: string) => {
-    const result = sellResource(gameState.economy, resourceName, tradeAmount);
+    const result = sellResource(gameState.economy, resourceName as any, tradeAmount);
     if (result) {
       onUpdate({ ...gameState });
       alert(`Sold ${tradeAmount} ${resourceName}`);
@@ -69,10 +71,12 @@ export default function ResourceCenterPage({ gameState, onUpdate }: ResourceCent
           {/* Resource List */}
           <div className="lg:col-span-2 space-y-4">
             {generators.map(([resourceName, generator]) => {
-              const amount = gameState.economy.resources.get(resourceName) || 0;
-              const capacity = generator.storageCapacity;
+              const amount = gameState.economy.resources.get(resourceName as any) || 0;
+              const capacity = gameState.economy.maxStorage.get(resourceName as any) || 10000;
               const percentage = (amount / capacity) * 100;
               const upgradeCost = 1000 * Math.pow(1.5, generator.level);
+              const generationRate = generator.baseGeneration * generator.efficiency;
+              const marketPrice = gameState.economy.marketPrices.get(resourceName as any) || 100;
 
               return (
                 <Card 
@@ -109,13 +113,13 @@ export default function ResourceCenterPage({ gameState, onUpdate }: ResourceCent
                         <div>
                           <span className="text-gray-400">Generation:</span>
                           <div className="text-green-400 font-semibold">
-                            +{generator.generationRate}/min
+                            +{generationRate.toFixed(1)}/min
                           </div>
                         </div>
                         <div>
                           <span className="text-gray-400">Market Price:</span>
                           <div className="text-yellow-400 font-semibold">
-                            {generator.marketPrice} credits
+                            {marketPrice} credits
                           </div>
                         </div>
                         <div>
@@ -174,19 +178,19 @@ export default function ResourceCenterPage({ gameState, onUpdate }: ResourceCent
                       <div className="flex justify-between">
                         <span className="text-gray-400">In Storage</span>
                         <span className="text-white">
-                          {(gameState.economy.resources.get(selectedResource) || 0).toLocaleString()}
+                          {(gameState.economy.resources.get(selectedResource as any) || 0).toLocaleString()}
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-400">Market Price</span>
                         <span className="text-yellow-400">
-                          {(gameState.economy.generators.get(selectedResource)?.marketPrice || 0)} credits
+                          {(gameState.economy.marketPrices.get(selectedResource as any) || 100)} credits
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-400">Generation</span>
                         <span className="text-green-400">
-                          +{(gameState.economy.generators.get(selectedResource)?.generationRate || 0)}/min
+                          +{((gameState.economy.generators.get(selectedResource)?.baseGeneration || 0) * (gameState.economy.generators.get(selectedResource)?.efficiency || 1)).toFixed(1)}/min
                         </span>
                       </div>
                     </div>
@@ -230,13 +234,13 @@ export default function ResourceCenterPage({ gameState, onUpdate }: ResourceCent
                         <div className="flex justify-between">
                           <span>Buy Cost:</span>
                           <span className="text-red-400">
-                            {(tradeAmount * (gameState.economy.generators.get(selectedResource)?.marketPrice || 0)).toLocaleString()} credits
+                            {(tradeAmount * (gameState.economy.marketPrices.get(selectedResource as any) || 100)).toLocaleString()} credits
                           </span>
                         </div>
                         <div className="flex justify-between">
                           <span>Sell Value:</span>
                           <span className="text-green-400">
-                            {(tradeAmount * (gameState.economy.generators.get(selectedResource)?.marketPrice || 0) * 0.8).toLocaleString()} credits
+                            {(tradeAmount * (gameState.economy.marketPrices.get(selectedResource as any) || 100) * 0.8).toLocaleString()} credits
                           </span>
                         </div>
                       </div>

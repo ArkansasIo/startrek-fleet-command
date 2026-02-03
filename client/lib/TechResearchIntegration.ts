@@ -243,8 +243,8 @@ export function getTechDisplayInfo(
   const nextLevelTime = nextLevel <= tech.maxLevel ? calculateResearchTime(tech, nextLevel) : 0;
 
   const synergies = (tech.synergiesWith || [])
-    .map(id => getTechById(id)?.name || id)
-    .filter(name => playerData.completedTechs[id]);
+    .map(techId => getTechById(techId)?.name || techId)
+    .filter((name, index) => playerData.completedTechs[(tech.synergiesWith || [])[index]]);
 
   const prerequisites = (tech.requirements.previousTech || [])
     .map(id => getTechById(id)?.name || id);
@@ -396,7 +396,7 @@ export function calculateResearchBudget(
   tooExpensive: string[];
   recommendations: string[];
 } {
-  const affordable: string[] = [];
+  const canAfford: string[] = [];
   const tooExpensive: string[] = [];
   const recommendations: string[] = [];
 
@@ -408,17 +408,17 @@ export function calculateResearchBudget(
     if (currentLevel >= techObj.maxLevel) continue;
 
     const nextLevelCost = calculateResearchCost(techObj, currentLevel + 1);
-    let canAfford = true;
+    let canAffordTech = true;
 
     for (const [resource, required] of Object.entries(nextLevelCost)) {
       if ((availableResources[resource] || 0) < required) {
-        canAfford = false;
+        canAffordTech = false;
         break;
       }
     }
 
-    if (canAfford) {
-      affordable.push(tech);
+    if (canAffordTech) {
+      canAfford.push(tech);
     } else {
       tooExpensive.push(tech);
     }

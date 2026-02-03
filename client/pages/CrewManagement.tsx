@@ -33,7 +33,7 @@ export default function CrewManagementPage({ gameState, onUpdate }: CrewManageme
     const matchesSearch = crew.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          crew.role.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRole = filterRole === 'all' || crew.role === filterRole;
-    const matchesTier = filterTier === 'all' || crew.tier === filterTier;
+    const matchesTier = filterTier === 'all' || crew.tier.toString() === filterTier;
     return matchesSearch && matchesRole && matchesTier;
   });
 
@@ -52,15 +52,21 @@ export default function CrewManagementPage({ gameState, onUpdate }: CrewManageme
     return colors[role.toLowerCase()] || 'bg-gray-500';
   };
 
-  const getTierColor = (tier: string) => {
+  const getTierColor = (tier: number | string) => {
+    const tierStr = typeof tier === 'number' ? tier.toString() : tier;
     const colors: Record<string, string> = {
+      '5': 'text-yellow-400',
+      '4': 'text-purple-400',
+      '3': 'text-blue-400',
+      '2': 'text-green-400',
+      '1': 'text-gray-400',
       'legendary': 'text-yellow-400',
       'epic': 'text-purple-400',
       'rare': 'text-blue-400',
       'uncommon': 'text-green-400',
       'common': 'text-gray-400',
     };
-    return colors[tier] || 'text-gray-400';
+    return colors[tierStr] || 'text-gray-400';
   };
 
   const CrewCard = ({ crew, owned }: { crew: CrewMember; owned: boolean }) => (
@@ -276,7 +282,7 @@ export default function CrewManagementPage({ gameState, onUpdate }: CrewManageme
                   )}
 
                   <Badge variant="outline" className={`${getRoleColor(selectedCrew.role)} text-white w-full justify-center`}>
-                    {selectedCrew.tier.toUpperCase()}
+                    Tier {selectedCrew.tier}
                   </Badge>
                 </CardContent>
               </Card>

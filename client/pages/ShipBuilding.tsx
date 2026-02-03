@@ -38,7 +38,7 @@ export default function ShipBuildingPage({ gameState, onUpdate }: ShipBuildingPa
     return matchesSearch && matchesFaction && matchesType;
   });
 
-  const myShipClassIds = new Set(gameState.fleet.ships.map(s => s.classId));
+  const myShipClassIds = new Set(gameState.ships.map(s => s.classId));
 
   const getFactionColor = (faction: string) => {
     const colors: Record<string, string> = {
@@ -132,7 +132,7 @@ export default function ShipBuildingPage({ gameState, onUpdate }: ShipBuildingPa
         <div className="mb-6">
           <h1 className="text-4xl font-bold text-white mb-2">Ship Construction Bay</h1>
           <p className="text-purple-200">
-            {gameState.fleet.ships.length} / {gameState.fleet.capacity} ships in fleet
+            {gameState.ships.length} / {gameState.fleet.capacity} ships in fleet
           </p>
         </div>
 
@@ -243,7 +243,9 @@ export default function ShipBuildingPage({ gameState, onUpdate }: ShipBuildingPa
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-400">Component Slots</span>
-                        <span className="text-white">{selectedShip.componentSlots}</span>
+                        <span className="text-white">
+                          W:{selectedShip.componentSlots.weapon} A:{selectedShip.componentSlots.armor} S:{selectedShip.componentSlots.shield}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -252,7 +254,8 @@ export default function ShipBuildingPage({ gameState, onUpdate }: ShipBuildingPa
                     <div>
                       <h4 className="text-sm font-semibold text-white mb-2">Special Ability</h4>
                       <div className="p-2 bg-gray-700 rounded">
-                        <p className="text-sm text-blue-300">{selectedShip.specialAbility}</p>
+                        <p className="text-sm font-semibold text-blue-300">{selectedShip.specialAbility.name}</p>
+                        <p className="text-sm text-blue-300">{selectedShip.specialAbility.description}</p>
                       </div>
                     </div>
                   )}

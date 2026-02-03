@@ -44,6 +44,9 @@ export interface ShipComponent {
 export interface ShipClass {
   classId: string;
   className: string;
+  name?: string; // For display purposes
+  faction?: string; // For display purposes
+  type?: string; // For display purposes
   federation: boolean;
   shipType: ShipType;
   tier: number;
@@ -740,7 +743,7 @@ export const SHIP_CLASS_KLINGON_TSORO: ShipClass = {
 };
 
 // ROMULAN SHIPS (8 ships, Tiers 2-5)
-export const SHIP_CLASS_ROMULAN_WARBIRD_D\'DERIDEX: ShipClass = {
+export const SHIP_CLASS_ROMULAN_WARBIRD_D_DERIDEX: ShipClass = {
   classId: 'ship_romulan_warbird_d_deridex',
   className: 'D\'Deridex Class',
   federation: false,
@@ -1325,7 +1328,7 @@ export const ALL_SHIP_CLASSES: ShipClass[] = [
   SHIP_CLASS_KLINGON_VORCHA, SHIP_CLASS_KLINGON_KALESS, SHIP_CLASS_KLINGON_SOMRAW,
   SHIP_CLASS_KLINGON_MOGH, SHIP_CLASS_KLINGON_RAPTOR, SHIP_CLASS_KLINGON_TSORO,
   // Romulan
-  SHIP_CLASS_ROMULAN_WARBIRD_D'DERIDEX, SHIP_CLASS_ROMULAN_VALDORE, SHIP_CLASS_ROMULAN_HAWK,
+  SHIP_CLASS_ROMULAN_WARBIRD_D_DERIDEX, SHIP_CLASS_ROMULAN_VALDORE, SHIP_CLASS_ROMULAN_HAWK,
   SHIP_CLASS_ROMULAN_DDERIDEX, SHIP_CLASS_ROMULAN_CRUISER, SHIP_CLASS_ROMULAN_FRIGATE,
   SHIP_CLASS_ROMULAN_PATROL,
   // Dominion
