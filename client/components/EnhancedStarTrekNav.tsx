@@ -52,6 +52,9 @@ import {
   Zap,
   TrendingUp,
   Hammer,
+  MapPin,
+  Lightbulb,
+  Cpu,
 } from "lucide-react";
 
 interface SubMenuItem {
@@ -1378,6 +1381,30 @@ export function EnhancedStarTrekNav({
       label: "Mining Operations",
       icon: <Hammer className="w-5 h-5" />,
       category: "operations",
+    },
+    {
+      id: "galaxy_map",
+      label: "Galaxy Map",
+      icon: <MapPin className="w-5 h-5" />,
+      category: "exploration",
+    },
+    {
+      id: "colony_management",
+      label: "Colonies",
+      icon: <Building2 className="w-5 h-5" />,
+      category: "operations",
+    },
+    {
+      id: "communication_hailing",
+      label: "Communications",
+      icon: <Radio className="w-5 h-5" />,
+      category: "command",
+    },
+    {
+      id: "ship_abilities",
+      label: "Ship Abilities",
+      icon: <Lightbulb className="w-5 h-5" />,
+      category: "tactical",
     },
   ];
 

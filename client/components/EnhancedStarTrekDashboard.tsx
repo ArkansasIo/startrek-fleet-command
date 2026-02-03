@@ -76,6 +76,10 @@ import { ExplorationDiscoveryUI } from "./ExplorationDiscoveryUI";
 import { RandomEventsUI } from "./RandomEventsUI";
 import { AchievementProgressionUI } from "./AchievementProgressionUI";
 import { ResourceMiningUI } from "./ResourceMiningUI";
+import { GalaxyMapUI } from "./GalaxyMapUI";
+import { ColonyManagementUI } from "./ColonyManagementUI";
+import { CommunicationHailingUI } from "./CommunicationHailingUI";
+import { ShipAbilitiesUI } from "./ShipAbilitiesUI";
 
 export function EnhancedStarTrekDashboard() {
   const [activeSection, setActiveSection] = useState("fleet");
@@ -152,6 +156,10 @@ export function EnhancedStarTrekDashboard() {
       random_events: "Random Events System",
       achievement_progression: "Achievement & Progression",
       resource_mining: "Resource Mining Operations",
+      galaxy_map: "Galaxy Map & Territories",
+      colony_management: "Colony Management",
+      communication_hailing: "Communications & Hailing",
+      ship_abilities: "Ship Abilities & Special Powers",
     };
 
     const submenuTitles: Record<string, Record<string, string>> = {
@@ -536,6 +544,14 @@ export function EnhancedStarTrekDashboard() {
         return <AchievementProgressionUI />;
       case "resource_mining":
         return <ResourceMiningUI />;
+      case "galaxy_map":
+        return <GalaxyMapUI />;
+      case "colony_management":
+        return <ColonyManagementUI />;
+      case "communication_hailing":
+        return <CommunicationHailingUI />;
+      case "ship_abilities":
+        return <ShipAbilitiesUI />;
       default:
         return <FleetCommand {...commonProps} />;
     }
