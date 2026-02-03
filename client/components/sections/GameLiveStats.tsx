@@ -8,6 +8,22 @@ import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 export const GameLiveStats: React.FC = () => {
   const { player, game } = useGameContext();
 
+  // Handle null player gracefully
+  if (!player) {
+    return (
+      <Card className="bg-trek-panel border-trek-accent mb-4">
+        <CardHeader>
+          <CardTitle className="text-trek-gold">Game Live Stats</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-trek-text/70 text-center py-4">
+            Initializing player data...
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="bg-trek-panel border-trek-accent mb-4">
       <CardHeader>
@@ -21,23 +37,23 @@ export const GameLiveStats: React.FC = () => {
           </div>
           <div>
             <div className="text-xs text-trek-text/70">Turn</div>
-            <div className="text-trek-gold font-bold">{game.turn}</div>
+            <div className="text-trek-gold font-bold">{game.turn || 0}</div>
           </div>
           <div>
             <div className="text-xs text-trek-text/70">Credits</div>
-            <div className="text-green-400 font-bold">{player.resources.credits}</div>
+            <div className="text-green-400 font-bold">{player.resources?.credits || 0}</div>
           </div>
           <div>
             <div className="text-xs text-trek-text/70">Planets Owned</div>
-            <div className="text-trek-blue font-bold">{player.planets.length}</div>
+            <div className="text-trek-blue font-bold">{player.planets?.length || 0}</div>
           </div>
           <div>
             <div className="text-xs text-trek-text/70">Fleet Size</div>
-            <div className="text-trek-blue font-bold">{Object.values(player.fleets).reduce((a, b) => a + b, 0)}</div>
+            <div className="text-trek-blue font-bold">{player.fleets ? Object.values(player.fleets).reduce((a, b) => a + b, 0) : 0}</div>
           </div>
           <div>
             <div className="text-xs text-trek-text/70">Buildings</div>
-            <div className="text-trek-blue font-bold">{Object.keys(player.buildings).length}</div>
+            <div className="text-trek-blue font-bold">{player.buildings ? Object.keys(player.buildings).length : 0}</div>
           </div>
           <div>
             <div className="text-xs text-trek-text/70">Research</div>

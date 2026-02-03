@@ -50,13 +50,13 @@ if ($choice -eq "1") {
     
     $passwords = @("postgres", "password", "admin", "root", "123456", "Password1", "Postgres123")
     
-    foreach ($pwd in $passwords) {
-        Write-Host "Trying: $pwd" -ForegroundColor Gray
-        $env:PGPASSWORD = $pwd
+    foreach ($testPwd in $passwords) {
+        Write-Host "Trying: $testPwd" -ForegroundColor Gray
+        $env:PGPASSWORD = $testPwd
         $testResult = & "C:\Program Files\PostgreSQL\15\bin\psql.exe" -U postgres -c "SELECT 1;" 2>&1
         
         if ($LASTEXITCODE -eq 0) {
-            Write-Host "Success! Current password is: $pwd" -ForegroundColor Green
+            Write-Host "Success! Current password is: $testPwd" -ForegroundColor Green
             Write-Host "Changing to: new_ass12worda_" -ForegroundColor Yellow
             
             $result = & "C:\Program Files\PostgreSQL\15\bin\psql.exe" -U postgres -c "ALTER USER postgres PASSWORD 'new_ass12worda_';" 2>&1

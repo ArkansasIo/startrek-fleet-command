@@ -7,6 +7,7 @@ import { GameDashboard } from "@/components/sections/GameDashboard";
 import { AppFooter, DetailedCredits } from "@/components/ui/AppFooter";
 import { Button } from "@/components/ui/button";
 import { EnhancedStarTrekDashboard } from "@/components/EnhancedStarTrekDashboard";
+import { GameProvider } from "@/lib/MMORPGGameEngine";
 
 import StoryProlog from "@/components/sections/StoryProlog";
 
@@ -80,31 +81,9 @@ export default function Index() {
   };
 
   return (
-    <StarTrekAudioProvider>
-      <div className="min-h-screen bg-trek-dark text-trek-text pb-16 flex">
-        {/* Star Trek Lore Sidebar (desktop only, collapsible on mobile) */}
-        <aside className="hidden lg:block w-80 bg-trek-panel border-r border-trek-accent p-4 overflow-y-auto">
-          <h2 className="text-trek-gold text-xl font-bold mb-4 tracking-wider">STAR TREK LORE</h2>
-          <div className="space-y-4">
-            {STAR_TREK_MENU_DETAILS.map((item) => (
-              <div key={item.id} className="bg-trek-dark/60 border border-trek-accent rounded p-3">
-                <div className="text-trek-blue font-semibold text-lg">{item.label}</div>
-                <div className="text-trek-text/80 text-sm mb-1">{item.description}</div>
-                <div className="text-trek-gold text-xs mb-1">
-                  <span className="font-bold">Examples:</span> {item.canonicalExamples.join(", ")}
-                </div>
-                <div className="text-trek-text/60 text-xs mb-1">
-                  <span className="font-bold">Episodes:</span> {item.notableEpisodes.join(", ")}
-                </div>
-                {item.funFact && (
-                  <div className="text-trek-warning text-xs italic">Fun Fact: {item.funFact}</div>
-                )}
-              </div>
-            ))}
-          </div>
-        </aside>
-        {/* Main Content Area */}
-        <div className="flex-1">
+    <GameProvider>
+      <StarTrekAudioProvider>
+        <div className="min-h-screen bg-trek-dark text-trek-text pb-16">
           <div className="min-h-screen">
             {showSplash ? (
               <SplashScreen onComplete={handleSplashComplete} />
@@ -197,7 +176,7 @@ export default function Index() {
             />
           </div>
         </div>
-      </div>
-    </StarTrekAudioProvider>
+      </StarTrekAudioProvider>
+    </GameProvider>
   );
 }
