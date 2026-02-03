@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: startrek_mmorpg
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  app:
+    build: .
+    depends_on:
+      - db
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DB_HOST: db
+      DB_PORT: '5432'
+      DB_NAME: startrek_mmorpg
+      DB_USER: postgres
+      DB_PASSWORD: password
+      CORS_ORIGIN: 'http://localhost:5173'
+    ports:
+      - '3000:3000'
+    restart: unless-stopped
+
+volumes:
+  db_data:

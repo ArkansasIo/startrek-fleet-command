@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /**
+   * Tailwind CSS theme
+   * tailwind.config.ts expects the following color variables to be expressed as HSL values.
+   * A different format will require also updating the theme in tailwind.config.ts.
+  */
+  :root {
+    --background: 216 100% 2%;
+    --foreground: 190 100% 85%;
+
+    --card: 216 50% 6%;
+    --card-foreground: 190 100% 85%;
+
+    --popover: 216 50% 6%;
+    --popover-foreground: 190 100% 85%;
+
+    --primary: 190 100% 50%;
+    --primary-foreground: 216 100% 2%;
+
+    --secondary: 216 30% 18%;
+    --secondary-foreground: 190 100% 85%;
+
+    --muted: 216 30% 12%;
+    --muted-foreground: 190 50% 60%;
+
+    --accent: 45 100% 60%;
+    --accent-foreground: 216 100% 2%;
+
+    --destructive: 0 84% 55%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 216 30% 18%;
+    --input: 216 30% 18%;
+    --ring: 190 100% 50%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 216 50% 6%;
+    --sidebar-foreground: 190 100% 85%;
+    --sidebar-primary: 190 100% 50%;
+    --sidebar-primary-foreground: 216 100% 2%;
+    --sidebar-accent: 216 30% 18%;
+    --sidebar-accent-foreground: 190 100% 85%;
+    --sidebar-border: 216 30% 18%;
+    --sidebar-ring: 190 100% 50%;
+
+    /* Star Trek Discovery specific colors */
+    --trek-blue: 190 100% 50%;
+    --trek-gold: 45 100% 60%;
+    --trek-dark: 216 100% 2%;
+    --trek-panel: 216 50% 6%;
+    --trek-accent: 216 30% 18%;
+    --trek-text: 190 100% 85%;
+    --trek-warning: 25 100% 55%;
+  }
+
+  .dark {
+    --background: 216 100% 1%;
+    --foreground: 190 100% 90%;
+
+    --card: 216 50% 4%;
+    --card-foreground: 190 100% 90%;
+
+    --popover: 216 50% 4%;
+    --popover-foreground: 190 100% 90%;
+
+    --primary: 190 100% 45%;
+    --primary-foreground: 216 100% 1%;
+
+    --secondary: 216 30% 15%;
+    --secondary-foreground: 190 100% 90%;
+
+    --muted: 216 30% 8%;
+    --muted-foreground: 190 50% 65%;
+
+    --accent: 45 100% 55%;
+    --accent-foreground: 216 100% 1%;
+
+    --destructive: 0 84% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 216 30% 15%;
+    --input: 216 30% 15%;
+    --ring: 190 100% 45%;
+    --sidebar-background: 216 50% 4%;
+    --sidebar-foreground: 190 100% 90%;
+    --sidebar-primary: 190 100% 45%;
+    --sidebar-primary-foreground: 216 100% 1%;
+    --sidebar-accent: 216 30% 15%;
+    --sidebar-accent-foreground: 190 100% 90%;
+    --sidebar-border: 216 30% 15%;
+    --sidebar-ring: 190 100% 45%;
+
+    /* Star Trek Discovery specific colors - dark mode */
+    --trek-blue: 190 100% 45%;
+    --trek-gold: 45 100% 55%;
+    --trek-dark: 216 100% 1%;
+    --trek-panel: 216 50% 4%;
+    --trek-accent: 216 30% 15%;
+    --trek-text: 190 100% 90%;
+    --trek-warning: 25 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
