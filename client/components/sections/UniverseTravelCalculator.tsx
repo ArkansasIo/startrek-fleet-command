@@ -189,7 +189,7 @@ export function UniverseTravelCalculator() {
                 size="sm"
                 className={
                   warpFactor === warp
-                    ? 'bg-trek-blue text-black'
+                    ? 'bg-trek-blue text-trek-dark'
                     : 'border-trek-accent text-trek-text hover:bg-trek-accent/20'
                 }
               >

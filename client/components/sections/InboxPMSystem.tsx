@@ -88,7 +88,7 @@ export const InboxPMSystem: React.FC<InboxPMSystemProps> = ({ playerId, guildId,
             <h4 className="text-trek-blue mb-2">Compose Message</h4>
             <Input placeholder="To (Player ID)" value={composeTo} onChange={e => setComposeTo(e.target.value)} className="mb-2" />
             <Input placeholder="Message..." value={composeContent} onChange={e => setComposeContent(e.target.value)} className="mb-2" />
-            <Button onClick={handleSend} className="bg-trek-accent text-black">Send</Button>
+            <Button onClick={handleSend} className="bg-trek-accent text-trek-dark">Send</Button>
           </div>
         )}
       </CardContent>

@@ -1012,35 +1012,35 @@ export function UniverseMaps({ activeSubmenu }: UniverseMapsProps) {
         <TabsList className="grid grid-cols-6 w-full bg-trek-panel border border-trek-accent">
           <TabsTrigger
             value="overview"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Map className="w-4 h-4 mr-2" />
             Overview
           </TabsTrigger>
           <TabsTrigger
             value="quadrants"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Grid className="w-4 h-4 mr-2" />
             Quadrants
           </TabsTrigger>
           <TabsTrigger
             value="sectors"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Compass className="w-4 h-4 mr-2" />
             Sectors
           </TabsTrigger>
           <TabsTrigger
             value="systems"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Star className="w-4 h-4 mr-2" />
             Systems
           </TabsTrigger>
           <TabsTrigger
             value="routes"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Navigation className="w-4 h-4 mr-2" />
             Routes
@@ -1048,7 +1048,7 @@ export function UniverseMaps({ activeSubmenu }: UniverseMapsProps) {
 
           <TabsTrigger
             value="game"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Zap className="w-4 h-4 mr-2" />
             Game
@@ -1187,7 +1187,7 @@ export function UniverseMaps({ activeSubmenu }: UniverseMapsProps) {
 
                         <Button
                           size="sm"
-                          className="w-full bg-trek-accent hover:bg-trek-accent/80 text-black"
+                          className="w-full bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                           onClick={() => {
                             setSelectedQuadrant(quadrant.id);
                             setActiveTab("quadrants");
@@ -1229,7 +1229,7 @@ export function UniverseMaps({ activeSubmenu }: UniverseMapsProps) {
                 size="sm"
                 className={
                   showGrid
-                    ? "bg-trek-accent text-black"
+                    ? "bg-trek-accent text-trek-dark"
                     : "border-trek-accent text-trek-text"
                 }
                 onClick={() => setShowGrid(!showGrid)}
@@ -1243,7 +1243,7 @@ export function UniverseMaps({ activeSubmenu }: UniverseMapsProps) {
                 size="sm"
                 className={
                   showRoutes
-                    ? "bg-trek-accent text-black"
+                    ? "bg-trek-accent text-trek-dark"
                     : "border-trek-accent text-trek-text"
                 }
                 onClick={() => setShowRoutes(!showRoutes)}
@@ -1395,7 +1395,7 @@ export function UniverseMaps({ activeSubmenu }: UniverseMapsProps) {
               </SelectContent>
             </Select>
 
-            <Button className="bg-trek-accent hover:bg-trek-accent/80 text-black">
+            <Button className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark">
               <Radar className="w-4 h-4 mr-2" />
               Long Range Scan
             </Button>
@@ -1532,7 +1532,7 @@ export function UniverseMaps({ activeSubmenu }: UniverseMapsProps) {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="max-w-md bg-trek-bg border-trek-accent text-trek-text"
             />
-            <Button className="bg-trek-accent hover:bg-trek-accent/80 text-black">
+            <Button className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark">
               <Search className="w-4 h-4 mr-2" />
               Search
             </Button>
@@ -1670,7 +1670,7 @@ export function UniverseMaps({ activeSubmenu }: UniverseMapsProps) {
                   <div className="flex gap-2 mt-4 pt-4 border-t border-trek-accent/30">
                     <Button
                       size="sm"
-                      className="bg-trek-accent hover:bg-trek-accent/80 text-black"
+                      className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                       onClick={() => setSelectedSystem(system)}
                     >
                       <Eye className="w-3 h-3 mr-2" />
@@ -1887,7 +1887,7 @@ export function UniverseMaps({ activeSubmenu }: UniverseMapsProps) {
                           turnActions: [...p.turnActions, { type: "build", buildingId: b.id }],
                         }))}
                         disabled={turnProcessing}
-                        className="bg-trek-accent text-black"
+                        className="bg-trek-accent text-trek-dark"
                       >
                         Build/Upgrade
                       </Button>
@@ -1920,7 +1920,7 @@ export function UniverseMaps({ activeSubmenu }: UniverseMapsProps) {
                           turnActions: [...p.turnActions, { type: "train", unitId: u.id, amount: 1 }],
                         }))}
                         disabled={turnProcessing}
-                        className="bg-trek-accent text-black"
+                        className="bg-trek-accent text-trek-dark"
                       >
                         Build
                       </Button>
@@ -1935,7 +1935,7 @@ export function UniverseMaps({ activeSubmenu }: UniverseMapsProps) {
           <div className="flex items-center gap-4 mt-6">
             <Button
               size="lg"
-              className="bg-trek-gold text-black font-bold px-8"
+              className="bg-trek-gold text-trek-dark font-bold px-8"
               onClick={handleProcessTurn}
               disabled={turnProcessing}
             >

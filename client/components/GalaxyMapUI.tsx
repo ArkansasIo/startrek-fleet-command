@@ -204,7 +204,7 @@ export function GalaxyMapUI() {
       federation: "bg-blue-600 text-white",
       klingon: "bg-red-600 text-white",
       romulan: "bg-green-600 text-white",
-      ferengi: "bg-yellow-600 text-black",
+      ferengi: "bg-yellow-600 text-yellow-900",
       dominion: "bg-purple-600 text-white",
       neutral: "bg-gray-600 text-white",
     };

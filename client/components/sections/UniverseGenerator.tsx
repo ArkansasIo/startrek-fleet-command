@@ -1146,7 +1146,7 @@ export function UniverseGenerator() {
                 />
                 <Button
                   onClick={() => setCustomSeed(generateRandomSeed())}
-                  className="bg-trek-accent hover:bg-trek-accent/80 text-black"
+                  className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                 >
                   <Dice1 className="w-4 h-4" />
                 </Button>
@@ -1162,7 +1162,7 @@ export function UniverseGenerator() {
                       <Button
                         size="sm"
                         onClick={saveSeed}
-                        className="bg-trek-accent hover:bg-trek-accent/80 text-black"
+                        className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                       >
                         <Save className="w-3 h-3" />
                       </Button>
@@ -1568,7 +1568,7 @@ export function UniverseGenerator() {
                       <Button
                         size="sm"
                         onClick={() => loadSeed(seed)}
-                        className="bg-trek-accent hover:bg-trek-accent/80 text-black"
+                        className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                       >
                         Load
                       </Button>
@@ -1746,7 +1746,7 @@ export function UniverseGenerator() {
                 <Button
                   size="sm"
                   onClick={() => setSelectedGalaxy(galaxy)}
-                  className="bg-trek-accent hover:bg-trek-accent/80 text-black"
+                  className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                 >
                   <Navigation className="w-3 h-3 mr-2" />
                   Explore Systems
@@ -1879,7 +1879,7 @@ export function UniverseGenerator() {
                 <Button
                   size="sm"
                   onClick={() => setSelectedSystem(system)}
-                  className="bg-trek-accent hover:bg-trek-accent/80 text-black"
+                  className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                 >
                   <Globe className="w-3 h-3 mr-2" />
                   Explore Planets
@@ -2044,7 +2044,7 @@ export function UniverseGenerator() {
                 <Button
                   size="sm"
                   onClick={() => setSelectedPlanet(planet)}
-                  className="bg-trek-accent hover:bg-trek-accent/80 text-black"
+                  className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                   disabled={planet.moons.length === 0}
                 >
                   <Moon className="w-3 h-3 mr-2" />

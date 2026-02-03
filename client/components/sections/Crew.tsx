@@ -1060,7 +1060,7 @@ export function Crew({ activeSubmenu }: CrewProps) {
           CREW MANAGEMENT SYSTEM
         </h2>
         <div className="flex items-center gap-4">
-          <Button className="bg-trek-accent hover:bg-trek-accent/80 text-black">
+          <Button className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark">
             <UserPlus className="w-4 h-4 mr-2" />
             Recruit Personnel
           </Button>
@@ -1080,35 +1080,35 @@ export function Crew({ activeSubmenu }: CrewProps) {
         <TabsList className="grid grid-cols-5 w-full bg-trek-panel border border-trek-accent">
           <TabsTrigger
             value="overview"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Activity className="w-4 h-4 mr-2" />
             Overview
           </TabsTrigger>
           <TabsTrigger
             value="personnel"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Users className="w-4 h-4 mr-2" />
             Personnel
           </TabsTrigger>
           <TabsTrigger
             value="buildings"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Building className="w-4 h-4 mr-2" />
             Buildings
           </TabsTrigger>
           <TabsTrigger
             value="assignments"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <MapPin className="w-4 h-4 mr-2" />
             Assignments
           </TabsTrigger>
           <TabsTrigger
             value="training"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <GraduationCap className="w-4 h-4 mr-2" />
             Training
@@ -1330,7 +1330,7 @@ export function Crew({ activeSubmenu }: CrewProps) {
                   </SelectContent>
                 </Select>
 
-                <Button className="bg-trek-accent hover:bg-trek-accent/80 text-black">
+                <Button className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark">
                   <Filter className="w-4 h-4 mr-2" />
                   Apply Filters
                 </Button>
@@ -1492,7 +1492,7 @@ export function Crew({ activeSubmenu }: CrewProps) {
                   <div className="flex gap-2 mt-4 pt-4 border-t border-trek-accent/30">
                     <Button
                       size="sm"
-                      className="bg-trek-accent hover:bg-trek-accent/80 text-black"
+                      className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                     >
                       <Eye className="w-3 h-3 mr-2" />
                       View Profile
@@ -1614,7 +1614,7 @@ export function Crew({ activeSubmenu }: CrewProps) {
                   <div className="flex gap-2">
                     <Button
                       size="sm"
-                      className="flex-1 bg-trek-accent hover:bg-trek-accent/80 text-black"
+                      className="flex-1 bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                     >
                       <TrendingUp className="w-3 h-3 mr-2" />
                       Upgrade
@@ -1723,7 +1723,7 @@ export function Crew({ activeSubmenu }: CrewProps) {
 
                         <Button
                           size="sm"
-                          className="w-full bg-trek-accent hover:bg-trek-accent/80 text-black"
+                          className="w-full bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                         >
                           <MapPin className="w-3 h-3 mr-2" />
                           View Location
@@ -1761,7 +1761,7 @@ export function Crew({ activeSubmenu }: CrewProps) {
                     </div>
                     <Button
                       size="sm"
-                      className="w-full mt-4 bg-trek-accent hover:bg-trek-accent/80 text-black"
+                      className="w-full mt-4 bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                     >
                       Enroll Personnel
                     </Button>
@@ -1782,7 +1782,7 @@ export function Crew({ activeSubmenu }: CrewProps) {
                     </div>
                     <Button
                       size="sm"
-                      className="w-full mt-4 bg-trek-accent hover:bg-trek-accent/80 text-black"
+                      className="w-full mt-4 bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                     >
                       Enroll Personnel
                     </Button>
@@ -1803,7 +1803,7 @@ export function Crew({ activeSubmenu }: CrewProps) {
                     </div>
                     <Button
                       size="sm"
-                      className="w-full mt-4 bg-trek-accent hover:bg-trek-accent/80 text-black"
+                      className="w-full mt-4 bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                     >
                       Enroll Personnel
                     </Button>
@@ -1824,7 +1824,7 @@ export function Crew({ activeSubmenu }: CrewProps) {
                     </div>
                     <Button
                       size="sm"
-                      className="w-full mt-4 bg-trek-accent hover:bg-trek-accent/80 text-black"
+                      className="w-full mt-4 bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                     >
                       Enroll Personnel
                     </Button>

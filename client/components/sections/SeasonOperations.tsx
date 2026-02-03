@@ -734,35 +734,35 @@ export function SeasonOperations() {
         <TabsList className="grid grid-cols-5 w-full bg-trek-panel border border-trek-accent">
           <TabsTrigger
             value="overview"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Calendar className="w-4 h-4 mr-2" />
             Overview
           </TabsTrigger>
           <TabsTrigger
             value="events"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Target className="w-4 h-4 mr-2" />
             Events
           </TabsTrigger>
           <TabsTrigger
             value="seasonpass"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Trophy className="w-4 h-4 mr-2" />
             Season Pass
           </TabsTrigger>
           <TabsTrigger
             value="campaigns"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Rocket className="w-4 h-4 mr-2" />
             Campaigns
           </TabsTrigger>
           <TabsTrigger
             value="leaderboard"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Award className="w-4 h-4 mr-2" />
             Leaderboard
@@ -856,7 +856,7 @@ export function SeasonOperations() {
                       </p>
                     </div>
                     <Button
-                      className="bg-trek-accent hover:bg-trek-accent/80 text-black"
+                      className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                       onClick={() =>
                         participateInEvent(
                           seasonEvents.filter((e) => e.status === "active")[0]
@@ -1023,7 +1023,7 @@ export function SeasonOperations() {
                   <div className="flex gap-2 pt-2">
                     {event.status === "active" && (
                       <Button
-                        className="flex-1 bg-trek-accent hover:bg-trek-accent/80 text-black"
+                        className="flex-1 bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                         onClick={() => participateInEvent(event.id)}
                       >
                         <Play className="w-4 h-4 mr-2" />
@@ -1041,7 +1041,7 @@ export function SeasonOperations() {
                       </Button>
                     )}
                     {event.status === "completed" && (
-                      <Button className="flex-1 bg-trek-gold hover:bg-trek-gold/80 text-black">
+                      <Button className="flex-1 bg-trek-gold hover:bg-trek-gold/80 text-trek-dark">
                         <Gift className="w-4 h-4 mr-2" />
                         Claim Rewards
                       </Button>
@@ -1069,7 +1069,7 @@ export function SeasonOperations() {
                   </div>
                 </div>
                 {!seasonPass.premiumUnlocked && (
-                  <Button className="bg-trek-gold hover:bg-trek-gold/80 text-black">
+                  <Button className="bg-trek-gold hover:bg-trek-gold/80 text-trek-dark">
                     <Zap className="w-4 h-4 mr-2" />
                     Unlock Premium
                   </Button>
@@ -1244,9 +1244,9 @@ export function SeasonOperations() {
                           <div
                             className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
                               episode.completed
-                                ? "bg-green-400 text-black"
+                                ? "bg-green-400 text-trek-dark"
                                 : episode.unlocked
-                                  ? "bg-trek-blue text-black"
+                                  ? "bg-trek-blue text-trek-dark"
                                   : "bg-trek-accent/30 text-trek-text/60"
                             }`}
                           >
@@ -1272,7 +1272,7 @@ export function SeasonOperations() {
                           {episode.unlocked && !episode.completed && (
                             <Button
                               size="sm"
-                              className="bg-trek-accent hover:bg-trek-accent/80 text-black"
+                              className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                             >
                               <Play className="w-3 h-3 mr-1" />
                               Start

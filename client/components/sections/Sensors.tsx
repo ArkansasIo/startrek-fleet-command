@@ -583,35 +583,35 @@ export function Sensors({ activeSubmenu }: SensorsProps) {
         <TabsList className="grid grid-cols-5 w-full bg-trek-panel border border-trek-accent">
           <TabsTrigger
             value="overview"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Activity className="w-4 h-4 mr-2" />
             Overview
           </TabsTrigger>
           <TabsTrigger
             value="contacts"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Target className="w-4 h-4 mr-2" />
             Contacts
           </TabsTrigger>
           <TabsTrigger
             value="scans"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Scan className="w-4 h-4 mr-2" />
             Active Scans
           </TabsTrigger>
           <TabsTrigger
             value="anomalies"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Zap className="w-4 h-4 mr-2" />
             Anomalies
           </TabsTrigger>
           <TabsTrigger
             value="calibration"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             <Settings className="w-4 h-4 mr-2" />
             Calibration
@@ -756,7 +756,7 @@ export function Sensors({ activeSubmenu }: SensorsProps) {
 
                       <Button
                         size="sm"
-                        className="w-full mt-3 bg-trek-accent hover:bg-trek-accent/80 text-black"
+                        className="w-full mt-3 bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                         onClick={() => calibrateSensor(sensor.id)}
                         disabled={sensor.status === "calibrating"}
                       >
@@ -836,7 +836,7 @@ export function Sensors({ activeSubmenu }: SensorsProps) {
               />
             </div>
             <Button
-              className="bg-trek-accent hover:bg-trek-accent/80 text-black"
+              className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
               onClick={() => setContacts((prev) => [...prev])} // Refresh contacts
             >
               <RefreshCw className="w-4 h-4 mr-2" />
@@ -956,7 +956,7 @@ export function Sensors({ activeSubmenu }: SensorsProps) {
                   <div className="flex gap-2 mt-4 pt-4 border-t border-trek-accent/30">
                     <Button
                       size="sm"
-                      className="bg-trek-accent hover:bg-trek-accent/80 text-black"
+                      className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                       onClick={() => startDetailedScan(contact.id)}
                     >
                       <Scan className="w-3 h-3 mr-2" />
@@ -1230,7 +1230,7 @@ export function Sensors({ activeSubmenu }: SensorsProps) {
                     {anomaly.investigation_status === "pending" && (
                       <Button
                         size="sm"
-                        className="bg-trek-accent hover:bg-trek-accent/80 text-black"
+                        className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                       >
                         <Play className="w-3 h-3 mr-2" />
                         Begin Investigation
@@ -1369,7 +1369,7 @@ export function Sensors({ activeSubmenu }: SensorsProps) {
 
                     <div className="flex gap-2 mt-4 pt-4 border-t border-trek-accent/30">
                       <Button
-                        className="bg-trek-accent hover:bg-trek-accent/80 text-black"
+                        className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                         onClick={() => calibrateSensor(sensor.id)}
                         disabled={sensor.status === "calibrating"}
                       >

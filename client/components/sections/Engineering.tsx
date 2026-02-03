@@ -359,25 +359,25 @@ export function Engineering({ activeSubmenu }: EngineeringProps) {
         <TabsList className="grid grid-cols-4 w-full bg-trek-panel border border-trek-accent">
           <TabsTrigger
             value="warp-core"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             Warp Core
           </TabsTrigger>
           <TabsTrigger
             value="systems"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             Ship Systems
           </TabsTrigger>
           <TabsTrigger
             value="power"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             Power Grid
           </TabsTrigger>
           <TabsTrigger
             value="maintenance"
-            className="data-[state=active]:bg-trek-accent data-[state=active]:text-black"
+            className="data-[state=active]:bg-trek-accent data-[state=active]:text-trek-dark"
           >
             Maintenance
           </TabsTrigger>
@@ -469,7 +469,7 @@ export function Engineering({ activeSubmenu }: EngineeringProps) {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <Button
-                    className="bg-trek-accent hover:bg-trek-accent/80 text-black"
+                    className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                     onClick={() => {
                       setWarpCore((prev) => ({
                         ...prev,
@@ -588,7 +588,7 @@ export function Engineering({ activeSubmenu }: EngineeringProps) {
                       {system.status === "offline" ? (
                         <Button
                           size="sm"
-                          className="flex-1 bg-trek-accent hover:bg-trek-accent/80 text-black text-xs"
+                          className="flex-1 bg-trek-accent hover:bg-trek-accent/80 text-trek-dark text-xs"
                           onClick={() => restartSystem(system.name)}
                         >
                           Restart
@@ -686,7 +686,7 @@ export function Engineering({ activeSubmenu }: EngineeringProps) {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <Button
-                    className="bg-trek-accent hover:bg-trek-accent/80 text-black"
+                    className="bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                     onClick={() => {
                       setPowerDistribution({
                         warpDrive: 25,
@@ -867,7 +867,7 @@ export function Engineering({ activeSubmenu }: EngineeringProps) {
 
                 <div className="pt-4">
                   <Button
-                    className="w-full bg-trek-accent hover:bg-trek-accent/80 text-black"
+                    className="w-full bg-trek-accent hover:bg-trek-accent/80 text-trek-dark"
                     onClick={runDiagnostics}
                     disabled={diagnosticsRunning}
                   >
