@@ -1053,123 +1053,6 @@ export function UniverseMaps({ activeSubmenu }: UniverseMapsProps) {
             <Zap className="w-4 h-4 mr-2" />
             Game
           </TabsTrigger>
-                {/* MMORPG/OGame Game Tab */}
-                <TabsContent value="game" className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Player Resources */}
-                    <Card className="bg-trek-panel border-trek-accent">
-                      <CardHeader>
-                        <CardTitle className="text-trek-gold flex items-center gap-2">
-                          <Zap className="w-5 h-5" />
-                          Player Resources
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="grid grid-cols-2 gap-4">
-                          {Object.entries(player.resources).map(([res, amt]) => (
-                            <div key={res} className="flex flex-col items-center">
-                              <span className="text-trek-blue font-bold text-lg">{String(amt)}</span>
-                              <span className="text-xs text-trek-text/70 capitalize">{res}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    {/* Player Buildings */}
-                    <Card className="bg-trek-panel border-trek-accent">
-                      <CardHeader>
-                        <CardTitle className="text-trek-gold flex items-center gap-2">
-                          <Settings className="w-5 h-5" />
-                          Buildings
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-2">
-                          {BUILDINGS.map((b) => (
-                            <div key={b.id} className="flex items-center justify-between">
-                              <span>{b.name}</span>
-                              <span className="text-trek-blue font-bold">
-                                Lv. {player.buildings[b.id] || 1}
-                              </span>
-                              <Button
-                                size="sm"
-                                onClick={() => setPlayer((p) => ({
-                                  ...p,
-                                  turnActions: [...p.turnActions, { type: "build", buildingId: b.id }],
-                                }))}
-                                disabled={turnProcessing}
-                                className="bg-trek-accent text-black"
-                              >
-                                Build/Upgrade
-                              </Button>
-                            </div>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    {/* Player Fleet */}
-                    <Card className="bg-trek-panel border-trek-accent">
-                      <CardHeader>
-                        <CardTitle className="text-trek-gold flex items-center gap-2">
-                          <Rocket className="w-5 h-5" />
-                          Fleet
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-2">
-                          {FLEET_UNITS.map((u) => (
-                            <div key={u.id} className="flex items-center justify-between">
-                              <span>{u.name}</span>
-                              <span className="text-trek-blue font-bold">
-                                {player.fleets[u.id] || 0}
-                              </span>
-                              <Button
-                                size="sm"
-                                onClick={() => setPlayer((p) => ({
-                                  ...p,
-                                  turnActions: [...p.turnActions, { type: "train", unitId: u.id, amount: 1 }],
-                                }))}
-                                disabled={turnProcessing}
-                                className="bg-trek-accent text-black"
-                              >
-                                Build
-                              </Button>
-                            </div>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-
-                  {/* Turn Button and Log */}
-                  <div className="flex items-center gap-4 mt-6">
-                    <Button
-                      size="lg"
-                      className="bg-trek-gold text-black font-bold px-8"
-                      onClick={handleProcessTurn}
-                      disabled={turnProcessing}
-                    >
-                      {turnProcessing ? "Processing..." : `End Turn (Turn ${game.turn})`}
-                    </Button>
-                    <span className="text-trek-text/70">Actions queued: {player.turnActions.length}</span>
-                  </div>
-                  <div className="mt-4">
-                    <Card className="bg-trek-panel border-trek-accent">
-                      <CardHeader>
-                        <CardTitle className="text-trek-gold">Turn Log</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="text-xs text-trek-text/80 space-y-1 max-h-40 overflow-y-auto">
-                          {player.log.slice(-10).map((entry, i) => (
-                            <div key={i}>• {entry}</div>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </TabsContent>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
@@ -1956,6 +1839,124 @@ export function UniverseMaps({ activeSubmenu }: UniverseMapsProps) {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+        
+        {/* MMORPG/OGame Game Tab */}
+        <TabsContent value="game" className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Player Resources */}
+            <Card className="bg-trek-panel border-trek-accent">
+              <CardHeader>
+                <CardTitle className="text-trek-gold flex items-center gap-2">
+                  <Zap className="w-5 h-5" />
+                  Player Resources
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 gap-4">
+                  {Object.entries(player.resources).map(([res, amt]) => (
+                    <div key={res} className="flex flex-col items-center">
+                      <span className="text-trek-blue font-bold text-lg">{String(amt)}</span>
+                      <span className="text-xs text-trek-text/70 capitalize">{res}</span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Player Buildings */}
+            <Card className="bg-trek-panel border-trek-accent">
+              <CardHeader>
+                <CardTitle className="text-trek-gold flex items-center gap-2">
+                  <Settings className="w-5 h-5" />
+                  Buildings
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {BUILDINGS.map((b) => (
+                    <div key={b.id} className="flex items-center justify-between">
+                      <span>{b.name}</span>
+                      <span className="text-trek-blue font-bold">
+                        Lv. {player.buildings[b.id] || 1}
+                      </span>
+                      <Button
+                        size="sm"
+                        onClick={() => setPlayer((p) => ({
+                          ...p,
+                          turnActions: [...p.turnActions, { type: "build", buildingId: b.id }],
+                        }))}
+                        disabled={turnProcessing}
+                        className="bg-trek-accent text-black"
+                      >
+                        Build/Upgrade
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Player Fleet */}
+            <Card className="bg-trek-panel border-trek-accent">
+              <CardHeader>
+                <CardTitle className="text-trek-gold flex items-center gap-2">
+                  <Rocket className="w-5 h-5" />
+                  Fleet
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {FLEET_UNITS.map((u) => (
+                    <div key={u.id} className="flex items-center justify-between">
+                      <span>{u.name}</span>
+                      <span className="text-trek-blue font-bold">
+                        {player.fleets[u.id] || 0}
+                      </span>
+                      <Button
+                        size="sm"
+                        onClick={() => setPlayer((p) => ({
+                          ...p,
+                          turnActions: [...p.turnActions, { type: "train", unitId: u.id, amount: 1 }],
+                        }))}
+                        disabled={turnProcessing}
+                        className="bg-trek-accent text-black"
+                      >
+                        Build
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Turn Button and Log */}
+          <div className="flex items-center gap-4 mt-6">
+            <Button
+              size="lg"
+              className="bg-trek-gold text-black font-bold px-8"
+              onClick={handleProcessTurn}
+              disabled={turnProcessing}
+            >
+              {turnProcessing ? "Processing..." : `End Turn (Turn ${game.turn})`}
+            </Button>
+            <span className="text-trek-text/70">Actions queued: {player.turnActions.length}</span>
+          </div>
+          <div className="mt-4">
+            <Card className="bg-trek-panel border-trek-accent">
+              <CardHeader>
+                <CardTitle className="text-trek-gold">Turn Log</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-xs text-trek-text/80 space-y-1 max-h-40 overflow-y-auto">
+                  {player.log.slice(-10).map((entry, i) => (
+                    <div key={i}>• {entry}</div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

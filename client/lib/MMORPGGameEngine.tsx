@@ -8,6 +8,10 @@ export interface Player {
   name: string;
   level: number;
   experience: number;
+  credits?: number;
+  reputation?: number;
+  inventory?: string[];
+  position?: { x: number; y: number; z: number };
   resources: ResourceState;
   buildings: { [buildingId: string]: number }; // building level
   fleets: { [unitId: string]: number }; // unit count
@@ -41,6 +45,10 @@ export function createInitialPlayer(id: string, name: string): Player {
     name,
     level: 1,
     experience: 0,
+    credits: initialResources.credits,
+    reputation: 0,
+    inventory: [],
+    position: { x: 0, y: 0, z: 0 },
     resources: { ...initialResources },
     buildings: {},
     fleets: {},
