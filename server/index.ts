@@ -24,8 +24,8 @@ import dotenv from "dotenv";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load environment variables
-dotenv.config();
+// Load environment variables (allow .env to override process env for local dev)
+dotenv.config({ override: true });
 
 class GameServer {
   private app: express.Application;

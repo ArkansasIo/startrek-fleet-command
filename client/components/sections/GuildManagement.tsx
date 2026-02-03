@@ -153,7 +153,7 @@ export function GuildManagement({ activeSubmenu }: GuildManagementProps) {
 
   const [currentTab, setCurrentTab] = useState(normalizeSubmenu(activeSubmenu));
   // Use player and game context for guild info if available
-  const playerGuild = player?.alliance ? { name: player.alliance, ...player } : null;
+  const [playerGuild, setPlayerGuild] = useState<Guild | null>(null);
   // TODO: Replace with real members/ranks/applications from context or API
   const [guildMembers, setGuildMembers] = useState<GuildMember[]>([]);
   const [guildRanks, setGuildRanks] = useState<GuildRank[]>([]);
@@ -181,6 +181,29 @@ export function GuildManagement({ activeSubmenu }: GuildManagementProps) {
   useEffect(() => {
     setCurrentTab(normalizeSubmenu(activeSubmenu));
   }, [activeSubmenu]);
+
+  useEffect(() => {
+    if (player?.alliance && !playerGuild) {
+      setPlayerGuild({
+        id: `guild-${player.alliance.toLowerCase().replace(/\s+/g, "-")}`,
+        name: player.alliance,
+        tag: player.alliance.slice(0, 3).toUpperCase(),
+        description: "",
+        guild_type: "general",
+        organization_level: "guild",
+        member_count: 1,
+        max_members: 100,
+        guild_wealth: 0,
+        guild_influence: 0,
+        guild_reputation: 0,
+        leader_name: player.name,
+        founder_name: player.name,
+        founded_at: new Date().toISOString(),
+        is_npc_guild: false,
+        guild_motto: "",
+      });
+    }
+  }, [player, playerGuild]);
 
   useEffect(() => {
     loadGuildData();

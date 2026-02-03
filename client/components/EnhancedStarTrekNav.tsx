@@ -44,12 +44,7 @@ import {
   Trophy,
   DollarSign,
   Wrench,
-  Handshake,
-  Target,
   Building2,
-  Rocket,
-  Compass,
-  Zap,
   TrendingUp,
   Hammer,
   MapPin,
@@ -1337,7 +1332,7 @@ export function EnhancedStarTrekNav({
     {
       id: "alliance_diplomacy",
       label: "Diplomacy",
-      icon: <Handshake className="w-5 h-5" />,
+      icon: <HeartHandshake className="w-5 h-5" />,
       category: "command",
     },
     {

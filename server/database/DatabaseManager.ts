@@ -91,12 +91,14 @@ export class DatabaseManager {
         `Database connected successfully at ${result.rows[0].now}`,
       );
 
+      // Mark initialized before schema checks that use query()
+      this.isInitialized = true;
+
       // Verify schema exists
       await this.verifySchema();
-
-      this.isInitialized = true;
     } catch (error) {
       this.logger.error("Failed to initialize database:", error);
+      this.isInitialized = false;
       throw error;
     }
   }

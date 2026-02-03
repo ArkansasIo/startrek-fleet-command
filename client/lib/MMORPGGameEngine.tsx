@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { GamePlayer, GameState as GameStateHook, useGameState } from "../hooks/useGameState";
 import { ResourceState, initialResources } from "./OGameMechanics";
 
@@ -122,14 +122,18 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [game, setGame] = useState<GameStateHook>(gameState);
 
   // Sync player from gameState
-  if (gameState.player && gameState.player !== player) {
-    setPlayer(gameState.player);
-  }
+  useEffect(() => {
+    if (gameState.player !== player) {
+      setPlayer(gameState.player ?? null);
+    }
+  }, [gameState.player, player]);
 
   // Sync game state
-  if (gameState !== game) {
-    setGame(gameState);
-  }
+  useEffect(() => {
+    if (gameState !== game) {
+      setGame(gameState);
+    }
+  }, [gameState, game]);
 
   return (
     <GameContext.Provider

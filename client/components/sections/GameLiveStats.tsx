@@ -24,6 +24,23 @@ export const GameLiveStats: React.FC = () => {
     );
   }
 
+  const researchCount = (() => {
+    const maybePlayer = player as unknown as {
+      research?: Record<string, number>;
+      researches?: Record<string, number>;
+    };
+
+    if (maybePlayer.research) {
+      return Object.keys(maybePlayer.research).length;
+    }
+
+    if (maybePlayer.researches) {
+      return Object.keys(maybePlayer.researches).length;
+    }
+
+    return 0;
+  })();
+
   return (
     <Card className="bg-trek-panel border-trek-accent mb-4">
       <CardHeader>
@@ -57,7 +74,7 @@ export const GameLiveStats: React.FC = () => {
           </div>
           <div>
             <div className="text-xs text-trek-text/70">Research</div>
-            <div className="text-trek-blue font-bold">{Object.keys(player.research).length}</div>
+            <div className="text-trek-blue font-bold">{researchCount}</div>
           </div>
           <div>
             <div className="text-xs text-trek-text/70">Alliance</div>
