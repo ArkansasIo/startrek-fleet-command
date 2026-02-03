@@ -42,6 +42,13 @@ import {
   Crown,
   Skull,
   Trophy,
+  DollarSign,
+  Wrench,
+  Handshake,
+  Target,
+  Building2,
+  Rocket,
+  Compass,
 } from "lucide-react";
 
 interface SubMenuItem {
@@ -1278,6 +1285,78 @@ export function EnhancedStarTrekNav({
           description: "Monitor all progression systems",
         },
       ],
+    },
+    {
+      id: "universe_travel",
+      label: "Universe Travel",
+      icon: <Rocket className="w-5 h-5" />,
+      category: "exploration",
+    },
+    {
+      id: "technology_research",
+      label: "Technology Research",
+      icon: <Microscope className="w-5 h-5" />,
+      category: "science",
+    },
+    {
+      id: "planetary_combat",
+      label: "Planetary Combat",
+      icon: <Target className="w-5 h-5" />,
+      category: "tactical",
+    },
+    {
+      id: "fleet_management",
+      label: "Fleet Management",
+      icon: <Rocket className="w-5 h-5" />,
+      category: "command",
+    },
+    {
+      id: "resource_economy",
+      label: "Economics & Trading",
+      icon: <DollarSign className="w-5 h-5" />,
+      category: "operations",
+    },
+    {
+      id: "crew_management",
+      label: "Crew Management",
+      icon: <Users className="w-5 h-5" />,
+      category: "command",
+    },
+    {
+      id: "ship_systems",
+      label: "Ship Systems",
+      icon: <Wrench className="w-5 h-5" />,
+      category: "operations",
+    },
+    {
+      id: "alliance_diplomacy",
+      label: "Diplomacy",
+      icon: <Handshake className="w-5 h-5" />,
+      category: "command",
+    },
+    {
+      id: "procedural_missions",
+      label: "Mission Operations",
+      icon: <Target className="w-5 h-5" />,
+      category: "operations",
+    },
+    {
+      id: "starbase_management",
+      label: "Starbase Management",
+      icon: <Building2 className="w-5 h-5" />,
+      category: "operations",
+    },
+    {
+      id: "ship_construction",
+      label: "Ship Construction",
+      icon: <Rocket className="w-5 h-5" />,
+      category: "operations",
+    },
+    {
+      id: "exploration_discovery",
+      label: "Exploration & Discovery",
+      icon: <Compass className="w-5 h-5" />,
+      category: "exploration",
     },
   ];
 

@@ -43,6 +43,7 @@ import {
   Wrench,
   Activity,
   BarChart3,
+  Sparkles,
 } from "lucide-react";
 
 interface SystemSettings {

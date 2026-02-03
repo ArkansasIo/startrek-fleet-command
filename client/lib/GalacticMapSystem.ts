@@ -1,5 +1,12 @@
 // GalacticMapSystem.ts
 // Galaxy/Space Map System with sector management and territorial control
+import {
+  calculateDistanceLightYears,
+  calculateWarpTravelTime,
+  formatDistance,
+  formatTravelTime,
+  type Coordinates3D,
+} from './UniverseTravelSystem';
 
 export type TerritoryStatus = 'neutral' | 'disputed' | 'controlled' | 'contested';
 export type PointOfInterest = 'star' | 'planet' | 'asteroid_field' | 'nebula' | 'anomaly' | 'station';
@@ -10,6 +17,8 @@ export interface GalacticSector {
   coordinateX: number;
   coordinateY: number;
   coordinateZ: number;
+  coordinatesParsecs?: { x: number; y: number; z: number }; // Real astronomical coordinates
+  distanceFromEarth?: number; // Light-years from Sol
   type: 'empty' | 'populated' | 'hostile' | 'resource_rich' | 'sacred';
   dangerLevel: number; // 0-100
   controlledBy?: string; // Player ID
@@ -525,6 +534,10 @@ export function getRouteBetweenSectors(
 
 // Generate sector report
 export function generateSectorReport(sector: GalacticSector): string {
+  const distanceStr = sector.distanceFromEarth 
+    ? `\n  Distance from Earth: ${formatDistance(sector.distanceFromEarth)}`
+    : '';
+  
   return `
 ╔════════════════════════════════════════════════════════════════╗
 ║                      SECTOR REPORT                             ║
@@ -532,7 +545,7 @@ export function generateSectorReport(sector: GalacticSector): string {
 
 SECTOR INFORMATION:
   Name: ${sector.name}
-  Coordinates: (${sector.coordinateX}, ${sector.coordinateY}, ${sector.coordinateZ})
+  Coordinates: (${sector.coordinateX}, ${sector.coordinateY}, ${sector.coordinateZ})${distanceStr}
   Type: ${sector.type.toUpperCase()}
   ID: ${sector.id}
 
@@ -564,3 +577,170 @@ ADJACENT SECTORS:
 ═══════════════════════════════════════════════════════════════════
 `;
 }
+
+// ============================================================================
+// TRAVEL DISTANCE CALCULATIONS
+// ============================================================================
+
+/**
+ * Calculate real light-year distance between two sectors
+ */
+export function calculateSectorDistance(
+  sector1: GalacticSector,
+  sector2: GalacticSector
+): number {
+  const coords1: Coordinates3D = {
+    x: sector1.coordinateX,
+    y: sector1.coordinateY,
+    z: sector1.coordinateZ,
+  };
+  const coords2: Coordinates3D = {
+    x: sector2.coordinateX,
+    y: sector2.coordinateY,
+    z: sector2.coordinateZ,
+  };
+  
+  return calculateDistanceLightYears(coords1, coords2);
+}
+
+/**
+ * Calculate travel time between sectors
+ */
+export function calculateSectorTravelTime(
+  sector1: GalacticSector,
+  sector2: GalacticSector,
+  warpFactor: number = 9.6
+): { days: number; hours: number; formatted: string } {
+  const distance = calculateSectorDistance(sector1, sector2);
+  const travelTimeDays = calculateWarpTravelTime(distance, warpFactor);
+  
+  const days = Math.floor(travelTimeDays);
+  const hours = Math.floor((travelTimeDays % 1) * 24);
+  
+  return {
+    days,
+    hours,
+    formatted: formatTravelTime(travelTimeDays),
+  };
+}
+
+/**
+ * Get detailed route information between sectors
+ */
+export function getDetailedSectorRoute(
+  startSector: GalacticSector,
+  endSector: GalacticSector,
+  allSectors: GalacticSector[],
+  warpFactor: number = 9.6
+): {
+  path: string[] | null;
+  distance: number;
+  travelTime: { days: number; hours: number; formatted: string };
+  formattedDistance: string;
+  waypoints: GalacticSector[];
+} | null {
+  const path = getRouteBetweenSectors(startSector.id, endSector.id, allSectors);
+  const distance = calculateSectorDistance(startSector, endSector);
+  const travelTime = calculateSectorTravelTime(startSector, endSector, warpFactor);
+  
+  const waypoints: GalacticSector[] = [];
+  if (path) {
+    path.forEach(sectorId => {
+      const sector = allSectors.find(s => s.id === sectorId);
+      if (sector) waypoints.push(sector);
+    });
+  }
+  
+  return {
+    path,
+    distance,
+    travelTime,
+    formattedDistance: formatDistance(distance),
+    waypoints,
+  };
+}
+
+/**
+ * Find all sectors within a certain distance (light-years)
+ */
+export function findSectorsInRange(
+  centerSector: GalacticSector,
+  allSectors: GalacticSector[],
+  maxDistanceLightYears: number
+): Array<{ sector: GalacticSector; distance: number }> {
+  const sectorsInRange: Array<{ sector: GalacticSector; distance: number }> = [];
+  
+  allSectors.forEach(sector => {
+    if (sector.id === centerSector.id) return;
+    
+    const distance = calculateSectorDistance(centerSector, sector);
+    if (distance <= maxDistanceLightYears) {
+      sectorsInRange.push({ sector, distance });
+    }
+  });
+  
+  // Sort by distance
+  return sectorsInRange.sort((a, b) => a.distance - b.distance);
+}
+
+/**
+ * Calculate fuel requirement for sector travel
+ * @param distance - Distance in light-years
+ * @param warpFactor - Warp factor
+ * @returns Dilithium crystals required
+ */
+export function calculateFuelRequirement(distance: number, warpFactor: number): number {
+  // Base fuel: 1 crystal per 100 light-years at warp 9
+  const baseFuel = distance / 100;
+  
+  // Fuel consumption increases exponentially with warp factor
+  const warpMultiplier = Math.pow(warpFactor / 9, 2.5);
+  
+  return Math.ceil(baseFuel * warpMultiplier);
+}
+
+/**
+ * Generate travel report between sectors
+ */
+export function generateTravelReport(
+  startSector: GalacticSector,
+  endSector: GalacticSector,
+  warpFactor: number = 9.6
+): string {
+  const distance = calculateSectorDistance(startSector, endSector);
+  const travelTime = calculateSectorTravelTime(startSector, endSector, warpFactor);
+  const fuelRequired = calculateFuelRequirement(distance, warpFactor);
+  
+  return `
+╔════════════════════════════════════════════════════════════════╗
+║                      TRAVEL REPORT                             ║
+╚════════════════════════════════════════════════════════════════╝
+
+ORIGIN:
+  Sector: ${startSector.name}
+  Coordinates: (${startSector.coordinateX}, ${startSector.coordinateY}, ${startSector.coordinateZ})
+
+DESTINATION:
+  Sector: ${endSector.name}
+  Coordinates: (${endSector.coordinateX}, ${endSector.coordinateY}, ${endSector.coordinateZ})
+
+TRAVEL PARAMETERS:
+  Direct Distance: ${formatDistance(distance)}
+  Warp Factor: ${warpFactor.toFixed(2)}
+  Estimated Time: ${travelTime.formatted}
+  Fuel Required: ${fuelRequired.toLocaleString()} dilithium crystals
+
+ROUTE HAZARDS:
+  Origin Danger: ${startSector.dangerLevel.toFixed(1)}/100
+  Destination Danger: ${endSector.dangerLevel.toFixed(1)}/100
+  ${endSector.threatLevel > 50 ? '  ⚠️  WARNING: High threat level at destination' : '  ✓ Destination appears secure'}
+  ${distance > 1000 ? '  ⚠️  WARNING: Long-range navigation required' : ''}
+
+RECOMMENDED ACTIONS:
+  ${distance > 500 ? '• Perform full systems check before departure' : '• Standard pre-flight checks sufficient'}
+  ${fuelRequired > 100 ? '• Ensure adequate dilithium reserves' : '• Fuel reserves adequate'}
+  ${endSector.threatLevel > 75 ? '• Request armed escort' : ''}
+  ${endSector.dangerLevel > 75 ? '• Raise shields upon arrival' : ''}
+`;
+}
+

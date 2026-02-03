@@ -61,6 +61,18 @@ import { ResearchDevelopment } from "./sections/ResearchDevelopment";
 import UniverseEvents from "./sections/UniverseEvents";
 import { LevelingCrafting } from "./sections/LevelingCrafting";
 import EnhancedMissionSystem from "./sections/EnhancedMissionSystem";
+import { UniverseTravelUI } from "./UniverseTravelUI";
+import { TechnologyResearchUI } from "./TechnologyResearchUI";
+import { PlanetaryCombatUI } from "./PlanetaryCombatUI";
+import { FleetManagementUI } from "./FleetManagementUI";
+import { ResourceEconomyUI } from "./ResourceEconomyUI";
+import { CrewManagementUI } from "./CrewManagementUI";
+import { ShipSystemsUI } from "./ShipSystemsUI";
+import { AllianceDiplomacyUI } from "./AllianceDiplomacyUI";
+import { ProceduralMissionUI } from "./ProceduralMissionUI";
+import { StarbaseManagementUI } from "./StarbaseManagementUI";
+import { ShipConstructionUI } from "./ShipConstructionUI";
+import { ExplorationDiscoveryUI } from "./ExplorationDiscoveryUI";
 
 export function EnhancedStarTrekDashboard() {
   const [activeSection, setActiveSection] = useState("fleet");
@@ -122,6 +134,18 @@ export function EnhancedStarTrekDashboard() {
       universe_events: "Universe Events",
       leveling_crafting: "Leveling & Crafting",
       pm_systems: "PM Systems Inbox",
+      universe_travel: "Universe Travel System",
+      technology_research: "Technology Research Center",
+      planetary_combat: "Planetary Combat Operations",
+      fleet_management: "Fleet Management Command",
+      resource_economy: "Galactic Economics & Trading",
+      crew_management: "Crew Management & Development",
+      ship_systems: "Ship Systems Management",
+      alliance_diplomacy: "Alliance & Diplomacy",
+      procedural_missions: "Mission Operations Center",
+      starbase_management: "Starbase & Station Management",
+      ship_construction: "Ship Construction & Shipyard",
+      exploration_discovery: "Exploration & Discovery",
     };
 
     const submenuTitles: Record<string, Record<string, string>> = {
@@ -476,6 +500,30 @@ export function EnhancedStarTrekDashboard() {
       case "pm_systems":
         // Use real playerId and shared messages state
         return <InboxPMSystem playerId={player.id} messages={messages} onSend={msg => setMessages(prev => [...prev, msg])} />;
+      case "universe_travel":
+        return <UniverseTravelUI />;
+      case "technology_research":
+        return <TechnologyResearchUI />;
+      case "planetary_combat":
+        return <PlanetaryCombatUI />;
+      case "fleet_management":
+        return <FleetManagementUI />;
+      case "resource_economy":
+        return <ResourceEconomyUI />;
+      case "crew_management":
+        return <CrewManagementUI />;
+      case "ship_systems":
+        return <ShipSystemsUI />;
+      case "alliance_diplomacy":
+        return <AllianceDiplomacyUI />;
+      case "procedural_missions":
+        return <ProceduralMissionUI />;
+      case "starbase_management":
+        return <StarbaseManagementUI />;
+      case "ship_construction":
+        return <ShipConstructionUI />;
+      case "exploration_discovery":
+        return <ExplorationDiscoveryUI />;
       default:
         return <FleetCommand {...commonProps} />;
     }
