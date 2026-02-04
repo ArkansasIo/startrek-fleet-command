@@ -53,7 +53,7 @@ import {
   ShoppingCart,
   MessageCircle,
   BarChart3,
-  Grid2X2,
+  Grid2x2,
 } from "lucide-react";
 
 interface SubMenuItem {
@@ -1451,7 +1451,7 @@ export function EnhancedStarTrekNav({
     {
       id: "procgen_universe",
       label: "Procedural Universe",
-      icon: <Grid2X2 className="w-5 h-5" />,
+      icon: <Grid2x2 className="w-5 h-5" />,
       category: "exploration",
     },
   ];
