@@ -56,6 +56,7 @@ import { Marketplace } from "./sections/Marketplace";
 import { Leaderboards } from "./sections/Leaderboards";
 import { FullChat } from "./sections/FullChat";
 import { Analytics } from "./sections/Analytics";
+import { ProcGenUniverse } from "./sections/ProcGenUniverse";
 import { SystemSettings } from "./sections/SystemSettings";
 import WeaponsSystem from "./sections/WeaponsSystem";
 import { WeaponsControl } from "./sections/WeaponsControl";
@@ -175,6 +176,7 @@ export function EnhancedStarTrekDashboard() {
       leaderboards: "Player Leaderboards",
       community_chat: "Community Chat System",
       analytics: "Player Analytics & Statistics",
+      procgen_universe: "Procedural Universe Explorer",
     };
 
     const submenuTitles: Record<string, Record<string, string>> = {
@@ -570,6 +572,8 @@ export function EnhancedStarTrekDashboard() {
         return <FullChat {...commonProps} />;
       case "analytics":
         return <Analytics {...commonProps} />;
+      case "procgen_universe":
+        return <ProcGenUniverse {...commonProps} />;
       case "achievement_progression":
         return <AchievementProgressionUI />;
       case "resource_mining":
