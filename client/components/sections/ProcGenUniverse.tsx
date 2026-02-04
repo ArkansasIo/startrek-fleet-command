@@ -12,6 +12,9 @@ import {
   Moon,
   MapPin,
   TrendingUp,
+  Users,
+  Award,
+  Heart,
 } from "lucide-react";
 import UniverseGenerator, {
   Galaxy,
@@ -21,6 +24,8 @@ import UniverseGenerator, {
   Asteroid,
   SpaceStation,
   Star as StarType,
+  NPC,
+  DetailedBiome,
 } from "../../../shared/UniverseGenerator";
 
 interface UniverseExplorerProps {
@@ -573,6 +578,67 @@ export function ProcGenUniverse({ activeSubmenu }: UniverseExplorerProps) {
                 </CardContent>
               </Card>
             )}
+
+          {/* NPCs & Inhabitants */}
+          {exploration.selectedPlanet && (
+            <Card className="bg-trek-panel border-trek-accent">
+              <CardHeader>
+                <CardTitle className="text-trek-gold text-sm flex items-center gap-2">
+                  <Users className="w-4 h-4" />
+                  Inhabitants & NPCs
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {Array.from({ length: 3 }).map((_, idx) => {
+                    const npc = useMemo(() => {
+                      const genForNPC = new UniverseGenerator(
+                        parseInt(exploration.selectedPlanet?.seed.toString().substring(0, 10) || "42") + idx
+                      );
+                      return genForNPC.generateNPC(exploration.selectedPlanet?.seed || 42, idx);
+                    }, [exploration.selectedPlanet?.id, idx]);
+
+                    return (
+                      <div key={idx} className="bg-trek-dark/50 p-4 rounded border border-trek-blue/30">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <h5 className="text-trek-gold font-bold">{npc.name}</h5>
+                            <p className="text-xs text-trek-text/70">
+                              {npc.race} • {npc.class} • Level {npc.level}
+                            </p>
+                          </div>
+                          <span
+                            className={`text-xs px-2 py-1 rounded font-bold ${
+                              npc.attitude === "friendly"
+                                ? "bg-trek-green/20 text-trek-green"
+                                : npc.attitude === "hostile"
+                                  ? "bg-red-500/20 text-red-500"
+                                  : "bg-trek-blue/20 text-trek-blue"
+                            }`}
+                          >
+                            {npc.attitude.toUpperCase()}
+                          </span>
+                        </div>
+                        <div className="text-xs space-y-1 text-trek-text/70">
+                          <div>Faction: {npc.faction.name}</div>
+                          <div>Profession: {npc.profession}</div>
+                          <div className="flex items-center gap-2 mt-2">
+                            <Award className="w-3 h-3" />
+                            <span>Reputation: {npc.reputation > 0 ? "+" : ""}{npc.reputation}</span>
+                          </div>
+                          {npc.goods && (
+                            <div className="flex items-center gap-2 mt-1">
+                              <span>Goods: {npc.goods.join(", ")}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
       )}
 

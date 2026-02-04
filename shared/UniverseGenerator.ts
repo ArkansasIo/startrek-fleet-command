@@ -138,6 +138,70 @@ export interface Galaxy extends CelestialObject {
   systemCount: number;
 }
 
+// ============ NEW: Biome and NPC Interfaces ============
+
+export interface BiomeTemplate {
+  id: string;
+  name: string;
+  classification: "tropical" | "temperate" | "arctic" | "desert" | "volcanic" | "aquatic" | "exotic";
+  terrainType: string;
+  description: string;
+  flora: string[];
+  fauna: string[];
+  hazards: string[];
+  rarity: number; // 1-10 (10 is rarest)
+  colorScheme: string;
+  temperatureRange: [number, number]; // min, max
+  humidityLevel: number; // 0-100
+}
+
+export interface DetailedBiome extends BiomeTemplate {
+  seed: number;
+  prevalence: number; // 0-100 percentage on planet
+  lifeformDensity: number; // 0-100
+  discoveryDifficulty: number; // 0-100
+  valueRating: number; // 0-100 (scientific/resource value)
+}
+
+export interface NPCFaction {
+  id: string;
+  name: string;
+  type: "trader" | "scientist" | "explorer" | "warrior" | "pirate" | "ambassador";
+  race: string;
+  reputation: number; // 0-100
+  alignment: "good" | "neutral" | "evil";
+}
+
+export interface NPC {
+  id: string;
+  name: string;
+  race: string; // Gek, Korvax, Vy'keen, Sentinel, Anomaly, Hybrid
+  class: string; // Trader, Scientist, Explorer, Warrior, Pirate, Diplomat, Engineer
+  level: number; // 1-20
+  faction: NPCFaction;
+  profession: string;
+  location: string; // planet name or station name
+  attitude: "friendly" | "neutral" | "hostile";
+  skills: { name: string; level: number }[];
+  goods?: string[]; // Trading items
+  quests?: { name: string; reward: string }[];
+  reputation: number; // Player's reputation with this NPC
+  lastSeen?: Date;
+}
+
+export interface NPCEncounter {
+  id: string;
+  npc: NPC;
+  planet?: string;
+  station?: string;
+  biome?: string;
+  frequency: number; // 0-100 (likelihood of encountering)
+  minPlayerLevel: number;
+  rewards: string[];
+}
+
+// ============ END NEW INTERFACES ============
+
 // Star type data
 const STAR_CLASSES = [
   {
@@ -219,48 +283,118 @@ const ATMOSPHERE_TYPES = [
   "Breathable",
 ];
 
-const BIOME_TEMPLATES = [
+const BIOME_TEMPLATES: BiomeTemplate[] = [
   {
+    id: "lush",
     name: "Lush",
+    classification: "tropical",
     terrainType: "Forest",
-    flora: ["Giant Trees", "Bioluminescent Plants", "Crystalline Flowers"],
-    fauna: ["Herbivores", "Predators", "Flying Creatures"],
+    description: "Verdant forests with abundant life and resources",
+    flora: ["Giant Trees", "Bioluminescent Plants", "Crystalline Flowers", "Exotic Vines"],
+    fauna: ["Herbivores", "Predators", "Flying Creatures", "Ground Dwellers"],
     hazards: ["None"],
+    rarity: 3,
+    colorScheme: "#22C55E",
+    temperatureRange: [15, 30],
+    humidityLevel: 85,
   },
   {
+    id: "toxic",
     name: "Toxic",
+    classification: "exotic",
     terrainType: "Swamp",
-    flora: ["Acid Plants", "Carnivorous Flora"],
-    fauna: ["Acid Creatures", "Parasites"],
-    hazards: ["Acid Rain", "Toxic Spores"],
+    description: "Hazardous wetlands with corrosive flora and fauna",
+    flora: ["Acid Plants", "Carnivorous Flora", "Poison Shrubs"],
+    fauna: ["Acid Creatures", "Parasites", "Toxic Wasps"],
+    hazards: ["Acid Rain", "Toxic Spores", "Caustic Pools"],
+    rarity: 6,
+    colorScheme: "#84CC16",
+    temperatureRange: [25, 40],
+    humidityLevel: 95,
   },
   {
+    id: "frozen",
     name: "Frozen",
+    classification: "arctic",
     terrainType: "Tundra",
-    flora: ["Ice Mosses", "Frost Plants"],
-    fauna: ["Ice Walkers", "Crystalline Creatures"],
-    hazards: ["Blizzards", "Avalanches"],
+    description: "Frozen wastelands with extreme cold conditions",
+    flora: ["Ice Mosses", "Frost Plants", "Crystal Growths"],
+    fauna: ["Ice Walkers", "Crystalline Creatures", "Snow Hunters"],
+    hazards: ["Blizzards", "Avalanches", "Frostbite"],
+    rarity: 4,
+    colorScheme: "#06B6D4",
+    temperatureRange: [-50, -10],
+    humidityLevel: 30,
   },
   {
+    id: "desert",
     name: "Desert",
+    classification: "desert",
     terrainType: "Sand Dunes",
-    flora: ["Cacti", "Sand Plants"],
-    fauna: ["Sand Worms", "Desert Lizards"],
-    hazards: ["Sand Storms", "Heat"],
+    description: "Arid expanses with extreme heat and scarce water",
+    flora: ["Cacti", "Sand Plants", "Drought-Resistant Trees"],
+    fauna: ["Sand Worms", "Desert Lizards", "Heat Beetles"],
+    hazards: ["Sand Storms", "Heat", "Extreme Dryness"],
+    rarity: 3,
+    colorScheme: "#F59E0B",
+    temperatureRange: [30, 60],
+    humidityLevel: 5,
   },
   {
+    id: "volcanic",
     name: "Volcanic",
+    classification: "volcanic",
     terrainType: "Lava Fields",
-    flora: ["Heat-Resistant Plants"],
-    fauna: ["Lava Creatures"],
-    hazards: ["Lava Flows", "Volcanic Gas"],
+    description: "Active volcanic region with molten terrain and intense heat",
+    flora: ["Heat-Resistant Plants", "Magma Flowers"],
+    fauna: ["Lava Creatures", "Heat Demons", "Magma Slugs"],
+    hazards: ["Lava Flows", "Volcanic Gas", "Magma Explosions"],
+    rarity: 7,
+    colorScheme: "#EF4444",
+    temperatureRange: [100, 200],
+    humidityLevel: 0,
   },
   {
+    id: "aquatic",
     name: "Aquatic",
+    classification: "aquatic",
     terrainType: "Ocean",
-    flora: ["Kelp", "Coral"],
-    fauna: ["Fish", "Whales", "Squid"],
-    hazards: ["Strong Currents", "Predators"],
+    description: "Vast oceans with diverse marine life",
+    flora: ["Kelp", "Coral", "Sea Plants", "Bioluminescent Algae"],
+    fauna: ["Fish", "Whales", "Squid", "Dolphins", "Sharks"],
+    hazards: ["Strong Currents", "Predators", "Whirlpools"],
+    rarity: 5,
+    colorScheme: "#0284C7",
+    temperatureRange: [0, 25],
+    humidityLevel: 100,
+  },
+  {
+    id: "exotic",
+    name: "Exotic",
+    classification: "exotic",
+    terrainType: "Alien Landscape",
+    description: "Strange and unusual biome with alien properties",
+    flora: ["Alien Flora", "Sentient Plants", "Crystalline Growth"],
+    fauna: ["Alien Lifeforms", "Phase Creatures", "Dimensional Beings"],
+    hazards: ["Radiation", "Dimensional Rifts", "Unknown Forces"],
+    rarity: 9,
+    colorScheme: "#D946EF",
+    temperatureRange: [-100, 150],
+    humidityLevel: 50,
+  },
+  {
+    id: "temperate",
+    name: "Temperate",
+    classification: "temperate",
+    terrainType: "Mixed Terrain",
+    description: "Balanced ecosystem with moderate conditions",
+    flora: ["Mixed Trees", "Grasses", "Shrubs", "Flowers"],
+    fauna: ["Deer", "Birds", "Rabbits", "Insects"],
+    hazards: ["Occasional Storms"],
+    rarity: 2,
+    colorScheme: "#10B981",
+    temperatureRange: [10, 25],
+    humidityLevel: 60,
   },
 ];
 
@@ -281,6 +415,64 @@ const ASTEROID_TYPES = [
   { type: "C", name: "Carbonaceous", metals: [20, 40], composition: ["Carbon", "Silicates"] },
   { type: "M", name: "Metallic", metals: [60, 95], composition: ["Iron", "Nickel", "Platinum"] },
   { type: "S", name: "Silicate", metals: [15, 25], composition: ["Silicates", "Iron"] },
+];
+
+// NPC RACES
+const NPC_RACES = ["Gek", "Korvax", "Vy'keen", "Sentinel", "Anomaly", "Hybrid"];
+
+// NPC CLASSES
+const NPC_CLASSES = ["Trader", "Scientist", "Explorer", "Warrior", "Pirate", "Diplomat", "Engineer"];
+
+// NPC FACTIONS
+const NPC_FACTIONS: NPCFaction[] = [
+  {
+    id: "guild",
+    name: "Traders Guild",
+    type: "trader",
+    race: "Gek",
+    reputation: 75,
+    alignment: "neutral",
+  },
+  {
+    id: "science",
+    name: "Science Institute",
+    type: "scientist",
+    race: "Korvax",
+    reputation: 80,
+    alignment: "good",
+  },
+  {
+    id: "empire",
+    name: "Vy'keen Empire",
+    type: "warrior",
+    race: "Vy'keen",
+    reputation: 60,
+    alignment: "neutral",
+  },
+  {
+    id: "outlaws",
+    name: "Outlaw Collective",
+    type: "pirate",
+    race: "Hybrid",
+    reputation: 30,
+    alignment: "evil",
+  },
+  {
+    id: "explorers",
+    name: "Explorers Society",
+    type: "explorer",
+    race: "Gek",
+    reputation: 70,
+    alignment: "good",
+  },
+  {
+    id: "sentinels",
+    name: "Sentinel Network",
+    type: "warrior",
+    race: "Sentinel",
+    reputation: 50,
+    alignment: "neutral",
+  },
 ];
 
 const SPACE_STATION_FACILITIES = [
@@ -625,6 +817,87 @@ export class UniverseGenerator {
     const prefixes = ["Space", "Orbital", "Trading", "Research", "Mining"];
     const nouns = ["Station", "Hub", "Outpost", "Colony", "Port"];
     return `${rng.nextChoice(prefixes)} ${rng.nextChoice(nouns)} ${Math.abs(seed).toString(36).toUpperCase()}`;
+  }
+
+  /**
+   * Generate detailed biome with seed
+   */
+  generateBiome(seed: number, biomeIndex: number): DetailedBiome {
+    const biomeSeed = this.hashSeed(seed, biomeIndex);
+    const rng = new SeededRandom(biomeSeed);
+
+    const template = rng.nextChoice(BIOME_TEMPLATES);
+
+    return {
+      ...template,
+      seed: biomeSeed,
+      prevalence: rng.nextInt(10, 95),
+      lifeformDensity: rng.nextInt(20, 100),
+      discoveryDifficulty: rng.nextInt(0, 100),
+      valueRating: rng.nextInt(10, 100),
+    };
+  }
+
+  /**
+   * Generate NPC for encounters
+   */
+  generateNPC(seed: number, npcIndex: number): NPC {
+    const npcSeed = this.hashSeed(seed, npcIndex);
+    const rng = new SeededRandom(npcSeed);
+
+    const race = rng.nextChoice(NPC_RACES);
+    const npcClass = rng.nextChoice(NPC_CLASSES);
+    const faction = rng.nextChoice(NPC_FACTIONS);
+
+    const nameMap: { [key: string]: string[] } = {
+      Gek: ["Flet", "Gex", "Ky", "Pho", "Tel", "Vu", "Xel"],
+      Korvax: ["Axios", "Theta", "Sigma", "Zeta", "Eta", "Phi", "Chi"],
+      "Vy'keen": ["Kor", "Tal", "Nay", "Sho", "Vex", "Zar", "Keth"],
+      Sentinel: ["Unit-001", "Unit-042", "Sentinel-7", "Alpha", "Delta", "Omega"],
+      Anomaly: ["The Entity", "The Traveler", "The Voice", "Echo", "Whisper"],
+      Hybrid: ["Cross", "Mix", "Blend", "Syn", "Flux", "Nexus"],
+    };
+
+    const names = nameMap[race] || ["Unknown"];
+
+    return {
+      id: `NPC-${npcIndex}`,
+      name: rng.nextChoice(names),
+      race,
+      class: npcClass,
+      level: rng.nextInt(1, 20),
+      faction,
+      profession: npcClass === "Trader" ? "Merchant" : npcClass === "Scientist" ? "Researcher" : npcClass,
+      location: "",
+      attitude: rng.nextInt(0, 100) > 50 ? "friendly" : rng.nextInt(0, 100) > 75 ? "hostile" : "neutral",
+      skills: [
+        { name: `${npcClass} Skill`, level: rng.nextInt(1, 20) },
+        { name: "Combat", level: rng.nextInt(1, 20) },
+        { name: "Trading", level: rng.nextInt(1, 20) },
+        { name: "Science", level: rng.nextInt(1, 20) },
+      ],
+      goods: npcClass === "Trader" ? [rng.nextChoice(RESOURCES), rng.nextChoice(RESOURCES)] : undefined,
+      reputation: rng.nextInt(-100, 100),
+    };
+  }
+
+  /**
+   * Generate NPC encounters for a location
+   */
+  generateNPCEncounters(seed: number, count: number = 3): NPCEncounter[] {
+    const encounters: NPCEncounter[] = [];
+    const rng = new SeededRandom(seed);
+    for (let i = 0; i < count; i++) {
+      const npc = this.generateNPC(seed, i);
+      encounters.push({
+        id: `ENCOUNTER-${i}`,
+        npc,
+        frequency: rng.nextInt(0, 100),
+        minPlayerLevel: rng.nextInt(1, 10),
+        rewards: [rng.nextChoice(RESOURCES), "Credits", "Experience"],
+      });
+    }
+    return encounters;
   }
 
   /**
