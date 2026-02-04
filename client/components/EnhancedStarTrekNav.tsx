@@ -53,7 +53,6 @@ import {
   ShoppingCart,
   MessageCircle,
   BarChart3,
-  Map,
 } from "lucide-react";
 
 interface SubMenuItem {
