@@ -50,6 +50,9 @@ import {
   MapPin,
   Lightbulb,
   Cpu,
+  ShoppingCart,
+  MessageCircle,
+  BarChart3,
 } from "lucide-react";
 
 interface SubMenuItem {
@@ -1400,6 +1403,49 @@ export function EnhancedStarTrekNav({
       label: "Ship Abilities",
       icon: <Lightbulb className="w-5 h-5" />,
       category: "tactical",
+    },
+    // NEW SYSTEMS INTEGRATION
+    {
+      id: "red_alert_system",
+      label: "Red Alert System",
+      icon: <AlertTriangle className="w-5 h-5" />,
+      category: "tactical",
+    },
+    {
+      id: "ai_profiles",
+      label: "AI Profiles",
+      icon: <Brain className="w-5 h-5" />,
+      category: "command",
+    },
+    {
+      id: "achievements_full",
+      label: "Achievements",
+      icon: <Trophy className="w-5 h-5" />,
+      category: "command",
+    },
+    {
+      id: "marketplace",
+      label: "Marketplace",
+      icon: <ShoppingCart className="w-5 h-5" />,
+      category: "operations",
+    },
+    {
+      id: "leaderboards",
+      label: "Leaderboards",
+      icon: <Crown className="w-5 h-5" />,
+      category: "command",
+    },
+    {
+      id: "community_chat",
+      label: "Community Chat",
+      icon: <MessageCircle className="w-5 h-5" />,
+      category: "command",
+    },
+    {
+      id: "analytics",
+      label: "Analytics & Stats",
+      icon: <BarChart3 className="w-5 h-5" />,
+      category: "command",
     },
   ];
 

@@ -48,6 +48,14 @@ import { GalacticTerritories } from "./sections/GalacticTerritories";
 import { CharacterCreation } from "./sections/CharacterCreation";
 import { StarshipCreation } from "./sections/StarshipCreation";
 import { NemesisSystem } from "./sections/NemesisSystem";
+// New components
+import { RedAlert } from "./sections/RedAlert";
+import { AIProfiles } from "./sections/AIProfiles";
+import { Achievements as FullAchievements } from "./sections/FullAchievements";
+import { Marketplace } from "./sections/Marketplace";
+import { Leaderboards } from "./sections/Leaderboards";
+import { FullChat } from "./sections/FullChat";
+import { Analytics } from "./sections/Analytics";
 import { SystemSettings } from "./sections/SystemSettings";
 import WeaponsSystem from "./sections/WeaponsSystem";
 import { WeaponsControl } from "./sections/WeaponsControl";
@@ -160,6 +168,13 @@ export function EnhancedStarTrekDashboard() {
       colony_management: "Colony Management",
       communication_hailing: "Communications & Hailing",
       ship_abilities: "Ship Abilities & Special Powers",
+      red_alert_system: "Red Alert System",
+      ai_profiles: "AI Profiles & Personalities",
+      achievements_full: "Achievements & Rewards",
+      marketplace: "Galactic Marketplace",
+      leaderboards: "Player Leaderboards",
+      community_chat: "Community Chat System",
+      analytics: "Player Analytics & Statistics",
     };
 
     const submenuTitles: Record<string, Record<string, string>> = {
@@ -540,6 +555,21 @@ export function EnhancedStarTrekDashboard() {
         return <ExplorationDiscoveryUI />;
       case "random_events":
         return <RandomEventsUI />;
+      // NEW SYSTEM CASES
+      case "red_alert_system":
+        return <RedAlert {...commonProps} />;
+      case "ai_profiles":
+        return <AIProfiles {...commonProps} />;
+      case "achievements_full":
+        return <FullAchievements {...commonProps} />;
+      case "marketplace":
+        return <Marketplace {...commonProps} />;
+      case "leaderboards":
+        return <Leaderboards {...commonProps} />;
+      case "community_chat":
+        return <FullChat {...commonProps} />;
+      case "analytics":
+        return <Analytics {...commonProps} />;
       case "achievement_progression":
         return <AchievementProgressionUI />;
       case "resource_mining":
